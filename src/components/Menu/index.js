@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 function Menu({ location, children }) {
   return <ul>{children}</ul>;
@@ -7,7 +7,8 @@ function Menu({ location, children }) {
 
 Menu.propTypes = {
   location: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  // children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.object.isRequired,
 };
 
 export default Menu;

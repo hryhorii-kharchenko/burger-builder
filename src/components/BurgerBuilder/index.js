@@ -1,22 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Burger from '../Burger';
 import BurgerIngredient from '../BurgerIngredient';
 
 class BurgerBuilder extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      ingredients: ['bread-top', 'cheese', 'meat', 'salad', 'bread-bottom'],
+    };
   }
 
   render() {
     // {  } = this.props;
-    // {  } = this.state;
+    const { ingredients } = this.state;
 
     return (
       <>
-        <BurgerIngredient type="salad" />
+        <Burger ingredientList={ingredients} />
       </>
     );
   }
