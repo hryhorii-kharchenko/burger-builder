@@ -11,10 +11,10 @@ function Burger({ ingredientList }) {
   }
 
   const ingredients = ingredientList.map((ingredient) => (
-    <BurgerIngredient type={ingredient} />
+    <BurgerIngredient type={ingredient.slice(0, -9)} />
   ));
 
-  return <section styleName="burger">{ingredients}</section>;
+  return <article styleName="burger">{ingredients}</article>;
 }
 
 Burger.defaultProps = { ingredientList: [] };

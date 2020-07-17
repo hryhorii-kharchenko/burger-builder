@@ -1,0 +1,7 @@
+.burger-list {
+  width: 100%;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
