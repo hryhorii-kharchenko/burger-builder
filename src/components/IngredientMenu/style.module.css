@@ -1,6 +1,6 @@
-.ingredient-list {
+.ingredient-menu {
   margin: 0px;
   padding: 15px;
-  border: 1px solid black;
+  border: 1px solid red;
   list-style-type: none;
 }

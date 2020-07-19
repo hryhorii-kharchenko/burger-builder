@@ -3,17 +3,25 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import BurgerPrice from '../BurgerPrice';
 import IngredientList from '../IngredientList';
 
 function IngredientComposer({
   burgers,
+  prices,
   addBurger,
   removeBurger,
   addIngredient,
   removeIngredient,
 }) {
-  const burgerLists = burgers.map((burger) => (
-    <IngredientList ingredients={burger} />
+  const burgerLists = burgers.map((burger, index) => (
+    <article>
+      <BurgerPrice price={prices[index]} />
+      <IngredientList
+        ingredients={burger}
+        removeIngredient={removeIngredient(index)}
+      />
+    </article>
   ));
 
   return (
@@ -37,6 +45,7 @@ function IngredientComposer({
 
 IngredientComposer.propTypes = {
   burgers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  prices: PropTypes.arrayOf(PropTypes.number).isRequired,
   addBurger: PropTypes.func.isRequired,
   removeBurger: PropTypes.func.isRequired,
   addIngredient: PropTypes.func.isRequired,

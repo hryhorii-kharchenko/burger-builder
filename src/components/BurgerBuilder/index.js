@@ -12,6 +12,7 @@ class BurgerBuilder extends React.Component {
     super(props);
 
     this.state = {
+      selectedBurger: 0,
       length: 1,
       0: [
         'bread-top-iob0ucot',
@@ -20,13 +21,23 @@ class BurgerBuilder extends React.Component {
         'salad-iob0ucow',
         'bread-bottom-iob0ucoq',
       ],
-      availableIngredients: [{ name: 'Bread top', id: 'bread-top' }],
+      availableIngredients: [
+        { name: 'Bread top', id: 'bread-top', price: 0.25 },
+        { name: 'Cheese', id: 'cheese', price: 0.99 },
+        { name: 'Meat', id: 'meat', price: 1.99 },
+        { name: 'Salad', id: 'salad', price: 0.3 },
+        { name: 'Bread bottom', id: 'bread-bottom', price: 0.25 },
+      ],
     };
 
     this.addBurger = this.addBurger.bind(this);
     this.removeBurger = this.removeBurger.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
+    this.addIngredientSelectedBurger = this.addIngredientSelectedBurger.bind(
+      this
+    );
     this.removeIngredient = this.removeIngredient.bind(this);
+    this.checkout = this.checkout.bind(this);
   }
 
   addBurger(ingredients = []) {
@@ -69,28 +80,45 @@ class BurgerBuilder extends React.Component {
     });
   }
 
-  removeIngredient(burgerId, ingredientId) {
-    if (burgerId >= this.state.length) return false;
+  addIngredientSelectedBurger(ingredientGenericId) {
+    const ingredientId = uniqid.time(ingredientGenericId + '-');
 
     this.setState((oldState) => {
-      const newState = oldState[burgerId].filter(
-        (ingredient) => ingredient !== ingredientId
-      );
-
-      return {
-        [burgerId]: newState,
-      };
+      const { selectedBurger } = oldState;
+      return { [selectedBurger]: [...oldState[selectedBurger], ingredientId] };
     });
   }
+
+  removeIngredient(burgerId) {
+    return (ingredientId) => {
+      if (burgerId >= this.state.length) return false;
+
+      this.setState((oldState) => {
+        const newState = oldState[burgerId].filter(
+          (ingredient) => ingredient !== ingredientId
+        );
+
+        return {
+          [burgerId]: newState,
+        };
+      });
+    };
+  }
+
+  checkout() {}
 
   render() {
     const { availableIngredients } = this.state;
 
-    const burgers = Array.from(this.state).map((burger) =>
-      burger.map((ingredient) =>
-        availableIngredients.find(
-          (available) => available.id === ingredient.slice(0, -9)
-        )
+    const burgers = Array.from(this.state);
+    const prices = burgers.map((burger) =>
+      burger.reduce(
+        (prev, current) =>
+          prev +
+          availableIngredients.find(
+            (ingredient) => ingredient.id === current.slice(0, -9)
+          ).price,
+        0
       )
     );
 
@@ -99,11 +127,14 @@ class BurgerBuilder extends React.Component {
         <BurgerList burgers={burgers} />
         <BurgerControls
           burgers={burgers}
+          prices={prices}
           availableIngredients={availableIngredients}
           addBurger={this.addBurger}
           removeBurger={this.removeBurger}
           addIngredient={this.addIngredient}
+          addIngredientSelectedBurger={this.addIngredientSelectedBurger}
           removeIngredient={this.removeIngredient}
+          checkout={this.checkout}
         />
       </>
     );

@@ -11,7 +11,7 @@ function Burger({ ingredientList }) {
   }
 
   const ingredients = ingredientList.map((ingredient) => (
-    <BurgerIngredient type={ingredient.slice(0, -9)} />
+    <BurgerIngredient type={ingredient.slice(0, -9)} key={ingredient} />
   ));
 
   return <article styleName="burger">{ingredients}</article>;
@@ -20,11 +20,7 @@ function Burger({ ingredientList }) {
 Burger.defaultProps = { ingredientList: [] };
 
 Burger.propTypes = {
-  ingredientList: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string,
-    })
-  ),
+  ingredientList: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default Burger;

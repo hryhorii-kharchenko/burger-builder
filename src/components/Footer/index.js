@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Logo from '../Logo';
-import Menu from '../Menu';
-import MenuItem from '../MenuItem';
+import Toolbar from '../Toolbar';
+import ToolbarItem from '../ToolbarItem';
 
 function Footer() {
   return (
     <footer>
       <Logo location="footer" />
-      <Menu location="footer">
-        <MenuItem title="Build your burger" link="/" />
-      </Menu>
+      <Toolbar location="footer">
+        <ToolbarItem title="Build your burger" link="/" />
+      </Toolbar>
     </footer>
   );
 }

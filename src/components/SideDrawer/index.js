@@ -3,16 +3,16 @@
 import React from 'react';
 
 import Logo from '../Logo';
-import Menu from '../Menu';
-import MenuItem from '../MenuItem';
+import Toolbar from '../Toolbar';
+import ToolbarItem from '../ToolbarItem';
 
 function SideDrawer() {
   return (
     <section>
       <Logo location="side" />
-      <Menu location="side">
-        <MenuItem title="Build your burger" link="/" />
-      </Menu>
+      <Toolbar location="side">
+        <ToolbarItem title="Build your burger" link="/" />
+      </Toolbar>
     </section>
   );
 }

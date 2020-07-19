@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function Menu({ location, children }) {
+function Toolbar({ location, children }) {
   return <ul>{children}</ul>;
 }
 
-Menu.propTypes = {
+Toolbar.propTypes = {
   location: PropTypes.string.isRequired,
   // children: PropTypes.arrayOf(PropTypes.element).isRequired,
   children: PropTypes.object.isRequired,
 };
 
-export default Menu;
+export default Toolbar;

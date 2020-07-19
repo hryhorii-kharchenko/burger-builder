@@ -1,7 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-function MenuItem({ title, link }) {
+function ToolbarItem({ title, link }) {
   return (
     <li>
       <a href={link}>{title}</a>
@@ -9,9 +9,9 @@ function MenuItem({ title, link }) {
   );
 }
 
-MenuItem.propTypes = {
+ToolbarItem.propTypes = {
   title: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
 };
 
-export default MenuItem;
+export default ToolbarItem;
