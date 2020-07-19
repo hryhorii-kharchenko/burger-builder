@@ -7,8 +7,7 @@ function Toolbar({ location, children }) {
 
 Toolbar.propTypes = {
   location: PropTypes.string.isRequired,
-  // children: PropTypes.arrayOf(PropTypes.element).isRequired,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Toolbar;

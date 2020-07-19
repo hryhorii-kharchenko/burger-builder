@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import AriaModal from 'react-aria-modal';
 import uniqid from 'uniqid';
 
 import Burger from '../Burger';
@@ -28,6 +29,7 @@ class BurgerBuilder extends React.Component {
         { name: 'Salad', id: 'salad', price: 0.3 },
         { name: 'Bread bottom', id: 'bread-bottom', price: 0.25 },
       ],
+      isCheckoutModalActive: false,
     };
 
     this.addBurger = this.addBurger.bind(this);
@@ -37,7 +39,8 @@ class BurgerBuilder extends React.Component {
       this
     );
     this.removeIngredient = this.removeIngredient.bind(this);
-    this.checkout = this.checkout.bind(this);
+    this.activateCheckoutModal = this.activateCheckoutModal.bind(this);
+    this.deactivateCheckoutModal = this.deactivateCheckoutModal.bind(this);
   }
 
   addBurger(ingredients = []) {
@@ -105,7 +108,17 @@ class BurgerBuilder extends React.Component {
     };
   }
 
-  checkout() {}
+  activateCheckoutModal() {
+    this.setState({
+      isCheckoutModalActive: true,
+    });
+  }
+
+  deactivateCheckoutModal() {
+    this.setState({
+      isCheckoutModalActive: false,
+    });
+  }
 
   render() {
     const { availableIngredients } = this.state;
@@ -121,6 +134,52 @@ class BurgerBuilder extends React.Component {
         0
       )
     );
+    const mergedBurgers = burgers.map((burger) => {
+      return burger.reduce((prev, next) => {
+        const bareIngredient = next.slice(0, -9);
+        const index = prev.findIndex((elem) => elem[0] === bareIngredient);
+
+        if (index < 0) {
+          prev.push([bareIngredient, 1]);
+          return prev;
+        } else {
+          prev[index][1] += 1;
+          return prev;
+        }
+      }, []);
+    });
+
+    const orderSummary = mergedBurgers.map((burger) => (
+      <ul>
+        {burger.map((ingredient) => (
+          <li>
+            {ingredient[0]}: {ingredient[1]}
+          </li>
+        ))}
+      </ul>
+    ));
+
+    const modal = this.state.isCheckoutModalActive ? (
+      <AriaModal
+        titleText="Checkout"
+        onExit={this.deactivateCheckoutModal}
+        initialFocus="#demo-one-deactivate"
+        applicationNode={document.getElementById('application')}
+        underlayStyle={{ paddingTop: '2em' }}
+      >
+        <div id="demo-one-modal" className="modal">
+          <div className="modal-body">{orderSummary}</div>
+          <footer className="modal-footer">
+            <button
+              id="demo-one-deactivate"
+              onClick={this.deactivateCheckoutModal}
+            >
+              deactivate modal
+            </button>
+          </footer>
+        </div>
+      </AriaModal>
+    ) : null;
 
     return (
       <>
@@ -134,8 +193,9 @@ class BurgerBuilder extends React.Component {
           addIngredient={this.addIngredient}
           addIngredientSelectedBurger={this.addIngredientSelectedBurger}
           removeIngredient={this.removeIngredient}
-          checkout={this.checkout}
+          activateCheckoutModal={this.activateCheckoutModal}
         />
+        {modal}
       </>
     );
   }

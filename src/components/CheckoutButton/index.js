@@ -3,11 +3,18 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Button from '../Button';
+
 function CheckoutButton({ isDisabled, onClick }) {
   return (
-    <button disabled={isDisabled} styleName="checkout-button" onClick={onClick}>
+    <Button
+      disabled={isDisabled}
+      isCustomStyled
+      styleName="checkout-button"
+      onClick={onClick}
+    >
       Checkout now
-    </button>
+    </Button>
   );
 }
 

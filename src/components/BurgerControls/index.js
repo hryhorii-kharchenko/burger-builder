@@ -16,7 +16,7 @@ function BurgerControls({
   addIngredient,
   addIngredientSelectedBurger,
   removeIngredient,
-  checkout,
+  activateCheckoutModal,
 }) {
   const ingredientCount = burgers.reduce(
     (prev, current) => prev + current.length,
@@ -30,7 +30,10 @@ function BurgerControls({
           ingredients={availableIngredients}
           addIngredientSelectedBurger={addIngredientSelectedBurger}
         />
-        <CheckoutButton onClick={checkout} isDisabled={ingredientCount === 0} />
+        <CheckoutButton
+          onClick={activateCheckoutModal}
+          isDisabled={ingredientCount === 0}
+        />
       </section>
       <IngredientComposer
         burgers={burgers}
@@ -59,7 +62,7 @@ BurgerControls.propTypes = {
   addIngredient: PropTypes.func.isRequired,
   addIngredientSelectedBurger: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
-  checkout: PropTypes.func.isRequired,
+  activateCheckoutModal: PropTypes.func.isRequired,
 };
 
 export default BurgerControls;

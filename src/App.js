@@ -5,9 +5,11 @@ import Layout from './components/Layout';
 
 function App() {
   return (
-    <Layout>
-      <BurgerBuilder />
-    </Layout>
+    <div id="application">
+      <Layout>
+        <BurgerBuilder />
+      </Layout>
+    </div>
   );
 }
 
