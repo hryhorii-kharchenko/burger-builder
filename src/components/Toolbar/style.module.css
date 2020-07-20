@@ -1,0 +1,26 @@
+.toolbar {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  list-style-type: none;
+}
+
+.location-header {
+  
+}
+
+.location-side {
+  flex-direction: column;
+}
+
+.location-footer {
+    
+}
+
+@media screen and (max-width: 500px) {
+  .location-header {
+    display: none;
+  }
+}

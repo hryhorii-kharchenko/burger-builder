@@ -1,0 +1,25 @@
+.close-button {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+}
+
+.div1 {
+  width: 35px;
+  height: 5px;
+  top: 15px;
+  left: 0px;
+  position: absolute;
+  transform: rotate(45deg);
+  background-color: black;
+}
+
+.div2 {
+  width: 35px;
+  height: 5px;
+  top: 15px;
+  left: 0px;
+  position: absolute;
+  transform: rotate(315deg);
+  background-color: black;
+}

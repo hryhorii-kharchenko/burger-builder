@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from '../Button';
+import CloseButton from '../CloseButton';
 
 function OrderSummary({
   summary,
@@ -31,6 +32,7 @@ function OrderSummary({
           Checkout
         </Button>
       </footer>
+      <CloseButton onClick={cancelBtnClick} top="10px" right="10px" />
     </div>
   );
 }

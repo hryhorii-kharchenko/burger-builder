@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
-import Backdrop from '../Backdrop';
 import Footer from '../Footer';
 import Header from '../Header';
 import SideDrawer from '../SideDrawer';
 
 function Layout({ children }) {
+  const [isSideDrawerActive, setIsSideDrawerActive] = useState(false);
+
   return (
     <>
-      <Header />
-      <SideDrawer />
-      <Backdrop />
+      <Header activateSideDrawer={() => setIsSideDrawerActive(true)} />
+      <SideDrawer
+        isActive={isSideDrawerActive}
+        deactivate={() => setIsSideDrawerActive(false)}
+      />
 
       <main>{children}</main>
 

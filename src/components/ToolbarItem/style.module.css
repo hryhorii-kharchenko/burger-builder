@@ -1,0 +1,40 @@
+.toolbar-item {
+  margin-right: 15px;
+}
+
+.toolbar-item:last-child {
+  margin-right: 0px;
+}
+
+.vertical {
+  margin-right: 0px;
+  margin-bottom: 10px;
+}
+
+.vertical:last-child {
+  margin-bottom: 0px;
+}
+
+.link {
+  color: black;
+  text-decoration: none;
+  transition: color 0.1s ease-out, border-bottom 0.1s ease-out;
+}
+
+.color-white {
+  color: white;
+}
+
+.link:hover,
+.link:active {
+  color: #F08E4A;
+}
+
+.active { 
+  color: #bc581e;
+  border-bottom: 1px solid #bc581e;
+}
+
+.active:hover {
+  border-bottom: 1px solid #F08E4A;
+}

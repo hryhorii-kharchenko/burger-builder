@@ -1,0 +1,23 @@
+.logo {
+  text-decoration: none;
+}
+
+.logo-img {
+  height: auto;
+}
+
+.location-header {
+  width: 100px;
+  /* top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%); */
+}
+
+.location-side {
+  width: 130px;
+}
+
+.location-footer {
+  width: 80px;
+}

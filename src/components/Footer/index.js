@@ -1,3 +1,5 @@
+import './style.module.css';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -7,10 +9,11 @@ import ToolbarItem from '../ToolbarItem';
 
 function Footer() {
   return (
-    <footer>
+    <footer styleName="footer">
       <Logo location="footer" />
       <Toolbar location="footer">
-        <ToolbarItem title="Build your burger" link="/" />
+        <ToolbarItem title="Build your burger" link="/" isActive />
+        <ToolbarItem title="Checkout" link="/" />
       </Toolbar>
     </footer>
   );
