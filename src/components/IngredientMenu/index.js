@@ -5,7 +5,11 @@ import React from 'react';
 
 import IngredientMenuItem from '../IngredientMenuItem';
 
-function IngredientMenu({ ingredients, addIngredientSelectedBurger }) {
+function IngredientMenu({
+  ingredients,
+  totalPrice,
+  addIngredientSelectedBurger,
+}) {
   const menuItems = ingredients.map((ingredient) => (
     <IngredientMenuItem
       id={ingredient.id}
@@ -15,7 +19,14 @@ function IngredientMenu({ ingredients, addIngredientSelectedBurger }) {
     />
   ));
 
-  return <ul styleName="ingredient-menu">{menuItems}</ul>;
+  return (
+    <div styleName="ingredient-menu">
+      <ul styleName="list">{menuItems}</ul>
+      <p>
+        Total price: <strong>{totalPrice}$</strong>
+      </p>
+    </div>
+  );
 }
 
 IngredientMenu.propTypes = {
@@ -26,6 +37,7 @@ IngredientMenu.propTypes = {
       price: PropTypes.number,
     })
   ),
+  totalPrice: PropTypes.number.isRequired,
   addIngredientSelectedBurger: PropTypes.func.isRequired,
 };
 

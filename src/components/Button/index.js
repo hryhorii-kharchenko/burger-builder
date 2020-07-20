@@ -11,7 +11,7 @@ function Button({
   isDisabled,
   children,
 }) {
-  const styleName = isCustomStyled ? null : `button color-${color}`;
+  const styleName = isCustomStyled ? null : 'button color-' + color;
 
   return (
     <button

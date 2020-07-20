@@ -3,7 +3,6 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import BurgerPrice from '../BurgerPrice';
 import IngredientList from '../IngredientList';
 
 function IngredientComposer({
@@ -16,7 +15,10 @@ function IngredientComposer({
 }) {
   const burgerLists = burgers.map((burger, index) => (
     <article>
-      <BurgerPrice price={prices[index]} />
+      <p>Burger {index + 1}</p>
+      <p>
+        Price: <strong>{prices[index].toFixed(2)}$</strong>
+      </p>
       <IngredientList
         ingredients={burger}
         removeIngredient={removeIngredient(index)}

@@ -7,6 +7,7 @@ import Burger from '../Burger';
 import BurgerControls from '../BurgerControls';
 import BurgerIngredient from '../BurgerIngredient';
 import BurgerList from '../BurgerList';
+import OrderSummary from '../OrderSummary';
 
 class BurgerBuilder extends React.Component {
   constructor(props) {
@@ -134,6 +135,9 @@ class BurgerBuilder extends React.Component {
         0
       )
     );
+    const totalPrice = prices
+      .reduce((prev, current) => prev + current, 0)
+      .toFixed(2);
     const mergedBurgers = burgers.map((burger) => {
       return burger.reduce((prev, next) => {
         const bareIngredient = next.slice(0, -9);
@@ -149,35 +153,37 @@ class BurgerBuilder extends React.Component {
       }, []);
     });
 
-    const orderSummary = mergedBurgers.map((burger) => (
-      <ul>
-        {burger.map((ingredient) => (
-          <li>
-            {ingredient[0]}: {ingredient[1]}
-          </li>
-        ))}
-      </ul>
+    const orderSummary = mergedBurgers.map((burger, index) => (
+      <article>
+        <h3>Burger {index + 1}</h3>
+        <ul>
+          {burger.map((ingredient) => (
+            <li>
+              {ingredient[0]}: {ingredient[1]}
+            </li>
+          ))}
+        </ul>
+        <p>
+          Price: <strong>{prices[index]}$</strong>
+        </p>
+      </article>
     ));
 
     const modal = this.state.isCheckoutModalActive ? (
       <AriaModal
         titleText="Checkout"
         onExit={this.deactivateCheckoutModal}
-        initialFocus="#demo-one-deactivate"
+        initialFocus="checkout-modal-order-summary-checkout-btn"
         applicationNode={document.getElementById('application')}
         underlayStyle={{ paddingTop: '2em' }}
       >
-        <div id="demo-one-modal" className="modal">
-          <div className="modal-body">{orderSummary}</div>
-          <footer className="modal-footer">
-            <button
-              id="demo-one-deactivate"
-              onClick={this.deactivateCheckoutModal}
-            >
-              deactivate modal
-            </button>
-          </footer>
-        </div>
+        <OrderSummary
+          summary={orderSummary}
+          totalPrice={totalPrice}
+          cancelBtnClick={this.deactivateCheckoutModal}
+          checkoutBtnClick={() => null}
+          checkouBtntId="checkout-modal-order-summary-checkout-btn"
+        />
       </AriaModal>
     ) : null;
 
@@ -187,6 +193,7 @@ class BurgerBuilder extends React.Component {
         <BurgerControls
           burgers={burgers}
           prices={prices}
+          totalPrice={totalPrice}
           availableIngredients={availableIngredients}
           addBurger={this.addBurger}
           removeBurger={this.removeBurger}

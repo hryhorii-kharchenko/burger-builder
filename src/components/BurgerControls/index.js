@@ -10,6 +10,7 @@ import IngredientMenu from '../IngredientMenu';
 function BurgerControls({
   burgers,
   prices,
+  totalPrice,
   availableIngredients,
   addBurger,
   removeBurger,
@@ -28,6 +29,7 @@ function BurgerControls({
       <section>
         <IngredientMenu
           ingredients={availableIngredients}
+          totalPrice={totalPrice}
           addIngredientSelectedBurger={addIngredientSelectedBurger}
         />
         <CheckoutButton
@@ -50,6 +52,7 @@ function BurgerControls({
 BurgerControls.propTypes = {
   burgers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
   prices: PropTypes.arrayOf(PropTypes.number).isRequired,
+  totalPrice: PropTypes.number.isRequired,
   availableIngredients: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
