@@ -1,5 +1,13 @@
 .order-summary {
+  min-width: 250px;
+  min-height: 400px;
   padding: 25px;
   background-color: white;
   position: relative;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -5,6 +5,7 @@ import React from 'react';
 
 import Button from '../Button';
 import CloseButton from '../CloseButton';
+import Spinner from '../Spinner';
 
 function OrderSummary({
   summary,
@@ -12,7 +13,16 @@ function OrderSummary({
   cancelBtnClick,
   checkoutBtnClick,
   checkouBtntId,
+  isLoading,
 }) {
+  if (isLoading) {
+    return (
+      <div styleName="order-summary loading">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div styleName="order-summary">
       <header>
@@ -39,6 +49,7 @@ function OrderSummary({
 
 OrderSummary.defaultProps = {
   checkouBtntId: null,
+  isLoading: false,
 };
 
 OrderSummary.propTypes = {
@@ -47,6 +58,7 @@ OrderSummary.propTypes = {
   cancelBtnClick: PropTypes.func.isRequired,
   checkoutBtnClick: PropTypes.func.isRequired,
   checkouBtntId: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
 export default OrderSummary;
