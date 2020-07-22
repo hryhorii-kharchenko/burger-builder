@@ -1,43 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import AriaModal from 'react-aria-modal';
 
 function withAxiosErrorHandler(WrapperComponent, axios) {
-  return (props) => {
-    const [error, setError] = useState(null);
-    const clearError = () => setError(null);
+  return class AxiosErrorHandler extends Component {
+    constructor(props) {
+      super(props);
 
-    useEffect(() => {
-      axios.interceptors.request.use((request) => {
-        clearError();
+      this.state = {
+        error: null,
+      };
+
+      this.clearError = this.clearError.bind(this);
+    }
+
+    UNSAFE_componentWillMount() {
+      this.reqInterceptor = axios.interceptors.request.use((request) => {
+        this.clearError();
         return request;
       });
-      axios.interceptors.response.use(
+      this.resInterceptor = axios.interceptors.response.use(
         (response) => response,
         (error) => {
-          setError(error);
+          this.setState({ error });
           return error;
         }
       );
-    });
+    }
 
-    const modal = error ? (
-      <AriaModal
-        titleText="Error"
-        onExit={clearError}
-        applicationNode={document.getElementById('application')}
-        underlayStyle={{ paddingTop: '2em' }}
-      >
-        <strong>{error.message}</strong>
-        <button>Cancel</button>
-      </AriaModal>
-    ) : null;
+    componentWillUnmount() {
+      axios.interceptors.request.eject(this.reqInterceptor);
+      axios.interceptors.response.eject(this.resInterceptor);
+    }
 
-    return (
-      <>
-        <WrapperComponent {...props} />
-        {modal}
-      </>
-    );
+    clearError() {
+      this.setState({ error: null });
+    }
+
+    render() {
+      const { error } = this.state;
+
+      const modal = error ? (
+        <AriaModal
+          titleText="Error"
+          onExit={this.clearError}
+          applicationNode={document.getElementById('application')}
+          underlayStyle={{ paddingTop: '2em' }}
+        >
+          <strong>{error.message}</strong>
+          <button>Cancel</button>
+        </AriaModal>
+      ) : null;
+
+      return (
+        <>
+          <WrapperComponent {...this.props} />
+          {modal}
+        </>
+      );
+    }
   };
 }
 

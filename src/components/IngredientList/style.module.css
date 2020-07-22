@@ -1,5 +1,5 @@
 .ingredient-list {
-  margin: 0px;
+  max-width: 150px;
   padding: 15px;
   border: 1px solid black;
   list-style-type: none;

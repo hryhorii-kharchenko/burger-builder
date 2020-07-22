@@ -20,11 +20,11 @@ class BurgerBuilder extends React.Component {
       selectedBurger: 0,
       length: 1,
       0: [
-        'bread-top-iob0ucot',
-        'cheese-iob0ucor',
-        'meat-iob0ucoe',
-        'salad-iob0ucow',
-        'bread-bottom-iob0ucoq',
+        //   'bread-top-00000001',
+        //   'cheese-00000002',
+        //   'meat-00000003',
+        //   'salad-00000004',
+        //   'bread-bottom-00000005',
       ],
       availableIngredients: [
         { name: 'Bread top', id: 'bread-top', price: 0.25 },
@@ -35,6 +35,7 @@ class BurgerBuilder extends React.Component {
       ],
       isCheckoutModalActive: false,
       isCheckoutRequestLoading: false,
+      isBurgerContentLoading: true,
     };
 
     this.addBurger = this.addBurger.bind(this);
@@ -47,6 +48,33 @@ class BurgerBuilder extends React.Component {
     this.activateCheckoutModal = this.activateCheckoutModal.bind(this);
     this.deactivateCheckoutModal = this.deactivateCheckoutModal.bind(this);
     this.proceedCheckout = this.proceedCheckout.bind(this);
+  }
+
+  componentDidMount() {
+    axios
+      .get('/ingredients.json')
+      .then((response) =>
+        Object.entries(response.data)
+          .map((tuple) => tuple[0] + '-' + tuple[1])
+          .sort(this.burgerSort)
+      )
+      .catch((error) => {
+        console.log(error);
+        return [
+          'bread-top-00000001',
+          // 'cheese-00000002',
+          'meat-00000003',
+          // 'salad-00000004',
+          'bread-bottom-00000005',
+        ];
+      })
+      .then((ingredients) =>
+        this.setState({
+          0: [...ingredients],
+          isBurgerContentLoading: false,
+        })
+      )
+      .catch((error) => console.log(error));
   }
 
   addBurger(ingredients = []) {
@@ -185,8 +213,61 @@ class BurgerBuilder extends React.Component {
       );
   }
 
+  burgerSort(a, b) {
+    const bareA = a.slice(0, -9);
+    const bareB = b.slice(0, -9);
+
+    let valueA, valueB;
+
+    switch (bareA) {
+      case 'bread-top':
+        valueA = 0;
+        break;
+      case 'cheese':
+        valueA = 50;
+        break;
+      case 'meat':
+        valueA = 100;
+        break;
+      case 'salad':
+        valueA = 150;
+        break;
+      case 'bread-bottom':
+        valueA = 10000;
+        break;
+      default:
+        valueA = -1;
+    }
+
+    switch (bareB) {
+      case 'bread-top':
+        valueB = 0;
+        break;
+      case 'cheese':
+        valueB = 50;
+        break;
+      case 'meat':
+        valueB = 100;
+        break;
+      case 'salad':
+        valueB = 150;
+        break;
+      case 'bread-bottom':
+        valueB = 10000;
+        break;
+      default:
+        valueB = -1;
+    }
+
+    return valueA - valueB;
+  }
+
   render() {
-    const { availableIngredients, isCheckoutRequestLoading } = this.state;
+    const {
+      availableIngredients,
+      isCheckoutRequestLoading,
+      isBurgerContentLoading,
+    } = this.state;
 
     const burgers = Array.from(this.state);
     const prices = burgers.map((burger) =>
@@ -254,7 +335,7 @@ class BurgerBuilder extends React.Component {
 
     return (
       <>
-        <BurgerList burgers={burgers} />
+        <BurgerList burgers={burgers} isLoading={isBurgerContentLoading} />
         <BurgerControls
           burgers={burgers}
           prices={prices}
@@ -266,6 +347,7 @@ class BurgerBuilder extends React.Component {
           addIngredientSelectedBurger={this.addIngredientSelectedBurger}
           removeIngredient={this.removeIngredient}
           activateCheckoutModal={this.activateCheckoutModal}
+          isLoading={isBurgerContentLoading}
         />
         {modal}
       </>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import IngredientList from '../IngredientList';
+import Spinner from '../Spinner';
 
 function IngredientComposer({
   burgers,
@@ -12,6 +13,7 @@ function IngredientComposer({
   removeBurger,
   addIngredient,
   removeIngredient,
+  isLoading,
 }) {
   const burgerLists = burgers.map((burger, index) => (
     <article>
@@ -25,9 +27,10 @@ function IngredientComposer({
       />
     </article>
   ));
+  const output = isLoading ? <Spinner styleName="spinner" /> : burgerLists;
 
   return (
-    <section>
+    <section styleName="ingredient-composer">
       {/* <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="ingredient-list" />
         {(provided) => (
@@ -40,10 +43,14 @@ function IngredientComposer({
           </IngredientList>
         )}
       </DragDropContext> */}
-      {burgerLists}
+      {output}
     </section>
   );
 }
+
+IngredientComposer.defaultProps = {
+  isLoading: false,
+};
 
 IngredientComposer.propTypes = {
   burgers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
@@ -52,6 +59,7 @@ IngredientComposer.propTypes = {
   removeBurger: PropTypes.func.isRequired,
   addIngredient: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default IngredientComposer;

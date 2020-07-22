@@ -18,6 +18,7 @@ function BurgerControls({
   addIngredientSelectedBurger,
   removeIngredient,
   activateCheckoutModal,
+  isLoading,
 }) {
   const ingredientCount = burgers.reduce(
     (prev, current) => prev + current.length,
@@ -44,10 +45,15 @@ function BurgerControls({
         removeBurger={removeBurger}
         addIngredient={addIngredient}
         removeIngredient={removeIngredient}
+        isLoading={isLoading}
       />
     </section>
   );
 }
+
+BurgerControls.defaultProps = {
+  isLoading: false,
+};
 
 BurgerControls.propTypes = {
   burgers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
@@ -66,6 +72,7 @@ BurgerControls.propTypes = {
   addIngredientSelectedBurger: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
   activateCheckoutModal: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default BurgerControls;

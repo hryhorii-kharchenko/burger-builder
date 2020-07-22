@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 function Button({
+  id,
   onClick,
   color,
   className,
@@ -15,6 +16,7 @@ function Button({
 
   return (
     <button
+      id={id}
       onClick={onClick}
       className={className}
       styleName={styleName}
@@ -26,6 +28,7 @@ function Button({
 }
 
 Button.defaultProps = {
+  id: null,
   color: 'default',
   className: '',
   isCustomStyled: false,
@@ -33,6 +36,7 @@ Button.defaultProps = {
 };
 
 Button.propTypes = {
+  id: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   color: PropTypes.string,
   className: PropTypes.string,
