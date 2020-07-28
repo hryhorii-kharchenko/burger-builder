@@ -8,6 +8,7 @@ import Burger from '../Burger';
 import BurgerControls from '../BurgerControls';
 import BurgerIngredient from '../BurgerIngredient';
 import BurgerList from '../BurgerList';
+import IngredientSummary from '../IngredientSummary';
 import OrderSummary from '../OrderSummary';
 import Spinner from '../Spinner';
 import withAxiosErrorHandler from '../withAxiosErrorHandler';
@@ -19,13 +20,7 @@ class BurgerBuilder extends React.Component {
     this.state = {
       selectedBurger: 0,
       length: 1,
-      0: [
-        //   'bread-top-00000001',
-        //   'cheese-00000002',
-        //   'meat-00000003',
-        //   'salad-00000004',
-        //   'bread-bottom-00000005',
-      ],
+      0: [],
       availableIngredients: [
         { name: 'Bread top', id: 'bread-top', price: 0.25 },
         { name: 'Cheese', id: 'cheese', price: 0.99 },
@@ -47,10 +42,20 @@ class BurgerBuilder extends React.Component {
     this.removeIngredient = this.removeIngredient.bind(this);
     this.activateCheckoutModal = this.activateCheckoutModal.bind(this);
     this.deactivateCheckoutModal = this.deactivateCheckoutModal.bind(this);
-    this.proceedCheckout = this.proceedCheckout.bind(this);
+    this.persistState = this.persistState.bind(this);
   }
 
   componentDidMount() {
+    const burgersJson = localStorage.getItem('burgers');
+    if (burgersJson !== null) {
+      const burgers = JSON.parse(burgersJson);
+      this.setState({
+        ...burgers,
+        isBurgerContentLoading: false,
+      });
+      return;
+    }
+
     axios
       .get('/ingredients.json')
       .then((response) =>
@@ -74,11 +79,41 @@ class BurgerBuilder extends React.Component {
           isBurgerContentLoading: false,
         })
       )
+      .then(() => {
+        this.persistState();
+      })
       .catch((error) => console.log(error));
+  }
+
+  persistState() {
+    const burgers = Array.from(this.state);
+    const { availableIngredients } = this.state;
+
+    const prices = burgers
+      .map((burger) =>
+        burger.reduce(
+          (prev, current) =>
+            prev +
+            availableIngredients.find(
+              (ingredient) => ingredient.id === current.slice(0, -9)
+            ).price,
+          0
+        )
+      )
+      .map((price) => parseFloat(price.toFixed(2)));
+
+    localStorage.setItem('burgers', JSON.stringify(burgers));
+    localStorage.setItem('prices', JSON.stringify(prices));
+  }
+
+  persistStateDeferred() {
+    setTimeout(this.persistState);
   }
 
   addBurger(ingredients = []) {
     this.setState((oldState) => {
+      this.persistStateDeferred();
+
       return {
         length: oldState.length + 1,
         [oldState.length]: ingredients,
@@ -90,6 +125,8 @@ class BurgerBuilder extends React.Component {
     if (id >= this.state.length) return false;
 
     this.setState((oldState) => {
+      this.persistStateDeferred();
+
       const newState = { length: oldState.length - 1 };
       let count = id;
 
@@ -111,6 +148,8 @@ class BurgerBuilder extends React.Component {
     const ingredientId = uniqid.time(ingredientGenericId + '-');
 
     this.setState((oldState) => {
+      this.persistStateDeferred();
+
       return {
         [burgerId]: [...oldState[burgerId], ingredientId],
       };
@@ -121,6 +160,8 @@ class BurgerBuilder extends React.Component {
     const ingredientId = uniqid.time(ingredientGenericId + '-');
 
     this.setState((oldState) => {
+      this.persistStateDeferred();
+
       const { selectedBurger } = oldState;
       return { [selectedBurger]: [...oldState[selectedBurger], ingredientId] };
     });
@@ -131,6 +172,8 @@ class BurgerBuilder extends React.Component {
       if (burgerId >= this.state.length) return false;
 
       this.setState((oldState) => {
+        this.persistStateDeferred();
+
         const newState = oldState[burgerId].filter(
           (ingredient) => ingredient !== ingredientId
         );
@@ -152,65 +195,6 @@ class BurgerBuilder extends React.Component {
     this.setState({
       isCheckoutModalActive: false,
     });
-  }
-
-  proceedCheckout() {
-    this.setState({
-      isCheckoutRequestLoading: true,
-    });
-
-    const { availableIngredients } = this.state;
-    const burgers = Array.from(this.state);
-    const prices = burgers.map((burger) =>
-      burger.reduce(
-        (prev, current) =>
-          prev +
-          availableIngredients.find(
-            (ingredient) => ingredient.id === current.slice(0, -9)
-          ).price,
-        0
-      )
-    );
-    const totalPrice = parseFloat(
-      prices.reduce((prev, current) => prev + current, 0).toFixed(2)
-    );
-    const burgerObjects = burgers.map((burger, index) => {
-      const burgerObj = {};
-
-      for (const ingredient of burger) {
-        const bareIngredient = ingredient.slice(0, -9);
-
-        if (burgerObj[bareIngredient]) {
-          burgerObj[bareIngredient] += 1;
-        } else {
-          burgerObj[bareIngredient] = 1;
-        }
-      }
-      burgerObj.price = prices[index];
-
-      return burgerObj;
-    });
-
-    const orderInfo = {
-      totalPrice,
-      burgers: burgerObjects,
-      customer: {
-        name: 'Test Test',
-        email: 'test@test.com',
-        address: { adress1: 'street1', zipCode: 12345, country: 'USA' },
-      },
-      deliveryMethod: 'fastest',
-    };
-
-    axios
-      .post('/orders.json', orderInfo)
-      .then((response) => this.deactivateCheckoutModal())
-      .catch((error) => console.log(error))
-      .finally(() =>
-        this.setState({
-          isCheckoutRequestLoading: false,
-        })
-      );
   }
 
   burgerSort(a, b) {
@@ -270,49 +254,21 @@ class BurgerBuilder extends React.Component {
     } = this.state;
 
     const burgers = Array.from(this.state);
-    const prices = burgers.map((burger) =>
-      burger.reduce(
-        (prev, current) =>
-          prev +
-          availableIngredients.find(
-            (ingredient) => ingredient.id === current.slice(0, -9)
-          ).price,
-        0
+    const prices = burgers
+      .map((burger) =>
+        burger.reduce(
+          (prev, current) =>
+            prev +
+            availableIngredients.find(
+              (ingredient) => ingredient.id === current.slice(0, -9)
+            ).price,
+          0
+        )
       )
-    );
+      .map((price) => parseFloat(price.toFixed(2)));
     const totalPrice = prices
       .reduce((prev, current) => prev + current, 0)
       .toFixed(2);
-    const mergedBurgers = burgers.map((burger) => {
-      return burger.reduce((prev, next) => {
-        const bareIngredient = next.slice(0, -9);
-        const index = prev.findIndex((elem) => elem[0] === bareIngredient);
-
-        if (index < 0) {
-          prev.push([bareIngredient, 1]);
-          return prev;
-        } else {
-          prev[index][1] += 1;
-          return prev;
-        }
-      }, []);
-    });
-
-    const orderSummary = mergedBurgers.map((burger, index) => (
-      <article>
-        <h3>Burger {index + 1}</h3>
-        <ul>
-          {burger.map((ingredient) => (
-            <li>
-              {ingredient[0]}: {ingredient[1]}
-            </li>
-          ))}
-        </ul>
-        <p>
-          Price: <strong>{prices[index]}$</strong>
-        </p>
-      </article>
-    ));
 
     const modal = this.state.isCheckoutModalActive ? (
       <AriaModal
@@ -323,10 +279,10 @@ class BurgerBuilder extends React.Component {
         underlayStyle={{ paddingTop: '2em' }}
       >
         <OrderSummary
-          summary={orderSummary}
+          summary={<IngredientSummary burgers={burgers} prices={prices} />}
           totalPrice={totalPrice}
           cancelBtnClick={this.deactivateCheckoutModal}
-          checkoutBtnClick={this.proceedCheckout}
+          checkoutUrl="/checkout"
           checkouBtntId="checkout-modal-order-summary-checkout-btn"
           isLoading={isCheckoutRequestLoading}
         />

@@ -11,7 +11,7 @@ function OrderSummary({
   summary,
   totalPrice,
   cancelBtnClick,
-  checkoutBtnClick,
+  checkoutUrl,
   checkouBtntId,
   isLoading,
 }) {
@@ -28,17 +28,12 @@ function OrderSummary({
       <header>
         <h2>Order summary</h2>
       </header>
-      <main className="body">
-        {summary}
-        <p>
-          Total price: <strong>{totalPrice}$</strong>
-        </p>
-      </main>
+      <main className="body">{summary}</main>
       <footer className="footer">
         <Button color="danger" onClick={cancelBtnClick}>
           Cancel
         </Button>
-        <Button id={checkouBtntId} color="success" onClick={checkoutBtnClick}>
+        <Button id={checkouBtntId} color="success" url={checkoutUrl}>
           Checkout
         </Button>
       </footer>
@@ -56,7 +51,7 @@ OrderSummary.propTypes = {
   summary: PropTypes.arrayOf(PropTypes.element).isRequired,
   totalPrice: PropTypes.number.isRequired,
   cancelBtnClick: PropTypes.func.isRequired,
-  checkoutBtnClick: PropTypes.func.isRequired,
+  checkoutUrl: PropTypes.string.isRequired,
   checkouBtntId: PropTypes.string,
   isLoading: PropTypes.bool,
 };

@@ -1,0 +1,12 @@
+.thankyou {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.link {
+  margin-right: 15px;
+}
+
+.link:last-child {
+  margin-right: 0px;
+}

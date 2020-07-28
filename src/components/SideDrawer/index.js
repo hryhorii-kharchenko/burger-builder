@@ -17,8 +17,19 @@ function SideDrawer({ isActive, deactivate }) {
       <section styleName={styleName}>
         <Logo location="side" />
         <Toolbar location="side">
-          <ToolbarItem title="Build your burger" link="/" isActive isVertical />
-          <ToolbarItem title="Checkout" link="/" isVertical />
+          <ToolbarItem
+            title="Build your burger"
+            link="/"
+            isActive
+            isVertical
+            onClick={deactivate}
+          />
+          <ToolbarItem
+            title="My orders"
+            link="/orders"
+            isVertical
+            onClick={deactivate}
+          />
         </Toolbar>
         <CloseButton onClick={deactivate} top="15px" right="15px" />
       </section>

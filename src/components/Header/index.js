@@ -15,7 +15,7 @@ function Header({ activateSideDrawer }) {
       <Logo location="header" />
       <Toolbar location="header">
         <ToolbarItem title="Build your burger" link="/" isActive />
-        <ToolbarItem title="Checkout" link="/" />
+        <ToolbarItem title="My orders" link="/orders" />
       </Toolbar>
       <SideDrawerToggler onClick={activateSideDrawer} />
     </header>

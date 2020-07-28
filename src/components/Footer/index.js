@@ -13,7 +13,7 @@ function Footer() {
       <Logo location="footer" />
       <Toolbar location="footer">
         <ToolbarItem title="Build your burger" link="/" isActive />
-        <ToolbarItem title="Checkout" link="/" />
+        <ToolbarItem title="My orders" link="/orders" />
       </Toolbar>
     </footer>
   );

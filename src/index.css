@@ -9,3 +9,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.toolbar-item.active { 
+  color: #bc581e;
+  border-bottom: 1px solid #bc581e;
+}
+
+.toolbar-item.active:hover {
+  border-bottom: 1px solid #F08E4A;
+}
