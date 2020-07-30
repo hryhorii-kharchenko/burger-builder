@@ -23,7 +23,9 @@ function IngredientComposer({
       </p>
       <IngredientList
         ingredients={burger}
-        removeIngredient={removeIngredient(index)}
+        removeIngredient={(ingredientIndex) =>
+          removeIngredient(index, ingredientIndex)
+        }
       />
     </article>
   ));
@@ -53,7 +55,11 @@ IngredientComposer.defaultProps = {
 };
 
 IngredientComposer.propTypes = {
-  burgers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  burgers: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({ id: PropTypes.string, type: PropTypes.string })
+    )
+  ).isRequired,
   prices: PropTypes.arrayOf(PropTypes.number).isRequired,
   addBurger: PropTypes.func.isRequired,
   removeBurger: PropTypes.func.isRequired,

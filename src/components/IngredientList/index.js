@@ -6,11 +6,11 @@ import React from 'react';
 import Ingredient from '../Ingredient';
 
 function IngredientList({ ingredients, removeIngredient }) {
-  const ingredientList = ingredients.map((ingredient) => (
+  const ingredientList = ingredients.map((ingredient, index) => (
     <Ingredient
-      type={ingredient.slice(0, -9)}
-      onClick={() => removeIngredient(ingredient)}
-      key={ingredient}
+      type={ingredient.type}
+      onClick={() => removeIngredient(index)}
+      key={ingredient.id}
     />
   ));
 
@@ -18,7 +18,9 @@ function IngredientList({ ingredients, removeIngredient }) {
 }
 
 IngredientList.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.string),
+  ingredients: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.string, type: PropTypes.string })
+  ),
 };
 
 export default IngredientList;

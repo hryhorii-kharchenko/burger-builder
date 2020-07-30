@@ -16,6 +16,7 @@ function IngredientMenu({
       name={ingredient.name}
       price={ingredient.price}
       onClick={addIngredientSelectedBurger}
+      key={ingredient.id}
     />
   ));
 
@@ -34,9 +35,10 @@ IngredientMenu.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
+      cssName: PropTypes.string,
       price: PropTypes.number,
     })
-  ),
+  ).isRequired,
   totalPrice: PropTypes.number.isRequired,
   addIngredientSelectedBurger: PropTypes.func.isRequired,
 };

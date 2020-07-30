@@ -56,16 +56,21 @@ BurgerControls.defaultProps = {
 };
 
 BurgerControls.propTypes = {
-  burgers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  burgers: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({ id: PropTypes.string, type: PropTypes.string })
+    )
+  ).isRequired,
   prices: PropTypes.arrayOf(PropTypes.number).isRequired,
   totalPrice: PropTypes.number.isRequired,
   availableIngredients: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
+      cssName: PropTypes.string,
       price: PropTypes.number,
     })
-  ),
+  ).isRequired,
   addBurger: PropTypes.func.isRequired,
   removeBurger: PropTypes.func.isRequired,
   addIngredient: PropTypes.func.isRequired,

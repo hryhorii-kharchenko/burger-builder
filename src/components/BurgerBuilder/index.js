@@ -1,16 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import AriaModal from 'react-aria-modal';
-import uniqid from 'uniqid';
+import { connect } from 'react-redux';
 
+import {
+  addBurger,
+  addBurgerIngredient,
+  clearBurger,
+  moveBurgerIngredient,
+  removeBurger,
+  removeBurgerIngredient,
+  setBurgerIngredients,
+  sortBurger,
+} from '../../actions';
 import axios from '../../axios-orders';
-import Burger from '../Burger';
+import {
+  getBurgers,
+  getBurgersPrices,
+  getBurgersRenderArr,
+  getTotalPriceFromPrices,
+} from '../../reducers/burgers';
+import { getMenu, getMenuValuesArr } from '../../reducers/menu';
+import { getSelectedBurger } from '../../reducers/selecterBurger';
 import BurgerControls from '../BurgerControls';
-import BurgerIngredient from '../BurgerIngredient';
 import BurgerList from '../BurgerList';
 import IngredientSummary from '../IngredientSummary';
 import OrderSummary from '../OrderSummary';
-import Spinner from '../Spinner';
 import withAxiosErrorHandler from '../withAxiosErrorHandler';
 
 class BurgerBuilder extends React.Component {
@@ -18,31 +33,31 @@ class BurgerBuilder extends React.Component {
     super(props);
 
     this.state = {
-      selectedBurger: 0,
-      length: 1,
-      0: [],
-      availableIngredients: [
-        { name: 'Bread top', id: 'bread-top', price: 0.25 },
-        { name: 'Cheese', id: 'cheese', price: 0.99 },
-        { name: 'Meat', id: 'meat', price: 1.99 },
-        { name: 'Salad', id: 'salad', price: 0.3 },
-        { name: 'Bread bottom', id: 'bread-bottom', price: 0.25 },
-      ],
+      // selectedBurger: 0,
+      // length: 1,
+      // 0: [],
+      // availableIngredients: [
+      //   { name: 'Bread top', id: 'bread-top', price: 0.25 },
+      //   { name: 'Cheese', id: 'cheese', price: 0.99 },
+      //   { name: 'Meat', id: 'meat', price: 1.99 },
+      //   { name: 'Salad', id: 'salad', price: 0.3 },
+      //   { name: 'Bread bottom', id: 'bread-bottom', price: 0.25 },
+      // ],
       isCheckoutModalActive: false,
       isCheckoutRequestLoading: false,
       isBurgerContentLoading: true,
     };
 
-    this.addBurger = this.addBurger.bind(this);
-    this.removeBurger = this.removeBurger.bind(this);
-    this.addIngredient = this.addIngredient.bind(this);
-    this.addIngredientSelectedBurger = this.addIngredientSelectedBurger.bind(
-      this
-    );
-    this.removeIngredient = this.removeIngredient.bind(this);
+    // this.addBurger = this.addBurger.bind(this);
+    // this.removeBurger = this.removeBurger.bind(this);
+    // this.addIngredient = this.addIngredient.bind(this);
+    // this.addIngredientSelectedBurger = this.addIngredientSelectedBurger.bind(
+    //   this
+    // );
+    // this.removeIngredient = this.removeIngredient.bind(this);
     this.activateCheckoutModal = this.activateCheckoutModal.bind(this);
     this.deactivateCheckoutModal = this.deactivateCheckoutModal.bind(this);
-    this.persistState = this.persistState.bind(this);
+    // this.persistState = this.persistState.bind(this);
   }
 
   componentDidMount() {
@@ -85,105 +100,105 @@ class BurgerBuilder extends React.Component {
       .catch((error) => console.log(error));
   }
 
-  persistState() {
-    const burgers = Array.from(this.state);
-    const { availableIngredients } = this.state;
+  // persistState() {
+  //   const burgers = Array.from(this.state);
+  //   const { availableIngredients } = this.state;
 
-    const prices = burgers
-      .map((burger) =>
-        burger.reduce(
-          (prev, current) =>
-            prev +
-            availableIngredients.find(
-              (ingredient) => ingredient.id === current.slice(0, -9)
-            ).price,
-          0
-        )
-      )
-      .map((price) => parseFloat(price.toFixed(2)));
+  //   const prices = burgers
+  //     .map((burger) =>
+  //       burger.reduce(
+  //         (prev, current) =>
+  //           prev +
+  //           availableIngredients.find(
+  //             (ingredient) => ingredient.id === current.slice(0, -9)
+  //           ).price,
+  //         0
+  //       )
+  //     )
+  //     .map((price) => parseFloat(price.toFixed(2)));
 
-    localStorage.setItem('burgers', JSON.stringify(burgers));
-    localStorage.setItem('prices', JSON.stringify(prices));
-  }
+  //   localStorage.setItem('burgers', JSON.stringify(burgers));
+  //   localStorage.setItem('prices', JSON.stringify(prices));
+  // }
 
-  persistStateDeferred() {
-    setTimeout(this.persistState);
-  }
+  // persistStateDeferred() {
+  //   setTimeout(this.persistState);
+  // }
 
-  addBurger(ingredients = []) {
-    this.setState((oldState) => {
-      this.persistStateDeferred();
+  // addBurger(ingredients = []) {
+  //   this.setState((oldState) => {
+  //     this.persistStateDeferred();
 
-      return {
-        length: oldState.length + 1,
-        [oldState.length]: ingredients,
-      };
-    });
-  }
+  //     return {
+  //       length: oldState.length + 1,
+  //       [oldState.length]: ingredients,
+  //     };
+  //   });
+  // }
 
-  removeBurger(id) {
-    if (id >= this.state.length) return false;
+  // removeBurger(id) {
+  //   if (id >= this.state.length) return false;
 
-    this.setState((oldState) => {
-      this.persistStateDeferred();
+  //   this.setState((oldState) => {
+  //     this.persistStateDeferred();
 
-      const newState = { length: oldState.length - 1 };
-      let count = id;
+  //     const newState = { length: oldState.length - 1 };
+  //     let count = id;
 
-      while (count < oldState.length - 1) {
-        newState[count] = oldState[count + 1];
-        count += 1;
-      }
+  //     while (count < oldState.length - 1) {
+  //       newState[count] = oldState[count + 1];
+  //       count += 1;
+  //     }
 
-      newState[count] = null;
+  //     newState[count] = null;
 
-      return newState;
-    });
+  //     return newState;
+  //   });
 
-    return true;
-  }
+  //   return true;
+  // }
 
-  addIngredient(burgerId, ingredientGenericId) {
-    if (burgerId >= this.state.length) return false;
-    const ingredientId = uniqid.time(ingredientGenericId + '-');
+  // addIngredient(burgerId, ingredientGenericId) {
+  //   if (burgerId >= this.state.length) return false;
+  //   const ingredientId = uniqid.time(ingredientGenericId + '-');
 
-    this.setState((oldState) => {
-      this.persistStateDeferred();
+  //   this.setState((oldState) => {
+  //     this.persistStateDeferred();
 
-      return {
-        [burgerId]: [...oldState[burgerId], ingredientId],
-      };
-    });
-  }
+  //     return {
+  //       [burgerId]: [...oldState[burgerId], ingredientId],
+  //     };
+  //   });
+  // }
 
-  addIngredientSelectedBurger(ingredientGenericId) {
-    const ingredientId = uniqid.time(ingredientGenericId + '-');
+  // addIngredientSelectedBurger(ingredientGenericId) {
+  //   const ingredientId = uniqid.time(ingredientGenericId + '-');
 
-    this.setState((oldState) => {
-      this.persistStateDeferred();
+  //   this.setState((oldState) => {
+  //     this.persistStateDeferred();
 
-      const { selectedBurger } = oldState;
-      return { [selectedBurger]: [...oldState[selectedBurger], ingredientId] };
-    });
-  }
+  //     const { selectedBurger } = oldState;
+  //     return { [selectedBurger]: [...oldState[selectedBurger], ingredientId] };
+  //   });
+  // }
 
-  removeIngredient(burgerId) {
-    return (ingredientId) => {
-      if (burgerId >= this.state.length) return false;
+  // removeIngredient(burgerId) {
+  //   return (ingredientId) => {
+  //     if (burgerId >= this.state.length) return false;
 
-      this.setState((oldState) => {
-        this.persistStateDeferred();
+  //     this.setState((oldState) => {
+  //       this.persistStateDeferred();
 
-        const newState = oldState[burgerId].filter(
-          (ingredient) => ingredient !== ingredientId
-        );
+  //       const newState = oldState[burgerId].filter(
+  //         (ingredient) => ingredient !== ingredientId
+  //       );
 
-        return {
-          [burgerId]: newState,
-        };
-      });
-    };
-  }
+  //       return {
+  //         [burgerId]: newState,
+  //       };
+  //     });
+  //   };
+  // }
 
   activateCheckoutModal() {
     this.setState({
@@ -197,78 +212,75 @@ class BurgerBuilder extends React.Component {
     });
   }
 
-  burgerSort(a, b) {
-    const bareA = a.slice(0, -9);
-    const bareB = b.slice(0, -9);
+  // burgerSort(a, b) {
+  //   const bareA = a.slice(0, -9);
+  //   const bareB = b.slice(0, -9);
 
-    let valueA, valueB;
+  //   let valueA, valueB;
 
-    switch (bareA) {
-      case 'bread-top':
-        valueA = 0;
-        break;
-      case 'cheese':
-        valueA = 50;
-        break;
-      case 'meat':
-        valueA = 100;
-        break;
-      case 'salad':
-        valueA = 150;
-        break;
-      case 'bread-bottom':
-        valueA = 10000;
-        break;
-      default:
-        valueA = -1;
-    }
+  //   switch (bareA) {
+  //     case 'bread-top':
+  //       valueA = 0;
+  //       break;
+  //     case 'cheese':
+  //       valueA = 50;
+  //       break;
+  //     case 'meat':
+  //       valueA = 100;
+  //       break;
+  //     case 'salad':
+  //       valueA = 150;
+  //       break;
+  //     case 'bread-bottom':
+  //       valueA = 10000;
+  //       break;
+  //     default:
+  //       valueA = -1;
+  //   }
 
-    switch (bareB) {
-      case 'bread-top':
-        valueB = 0;
-        break;
-      case 'cheese':
-        valueB = 50;
-        break;
-      case 'meat':
-        valueB = 100;
-        break;
-      case 'salad':
-        valueB = 150;
-        break;
-      case 'bread-bottom':
-        valueB = 10000;
-        break;
-      default:
-        valueB = -1;
-    }
+  //   switch (bareB) {
+  //     case 'bread-top':
+  //       valueB = 0;
+  //       break;
+  //     case 'cheese':
+  //       valueB = 50;
+  //       break;
+  //     case 'meat':
+  //       valueB = 100;
+  //       break;
+  //     case 'salad':
+  //       valueB = 150;
+  //       break;
+  //     case 'bread-bottom':
+  //       valueB = 10000;
+  //       break;
+  //     default:
+  //       valueB = -1;
+  //   }
 
-    return valueA - valueB;
-  }
+  //   return valueA - valueB;
+  // }
 
   render() {
     const {
-      availableIngredients,
+      // availableIngredients,
       isCheckoutRequestLoading,
       isBurgerContentLoading,
     } = this.state;
 
-    const burgers = Array.from(this.state);
-    const prices = burgers
-      .map((burger) =>
-        burger.reduce(
-          (prev, current) =>
-            prev +
-            availableIngredients.find(
-              (ingredient) => ingredient.id === current.slice(0, -9)
-            ).price,
-          0
-        )
-      )
-      .map((price) => parseFloat(price.toFixed(2)));
-    const totalPrice = prices
-      .reduce((prev, current) => prev + current, 0)
-      .toFixed(2);
+    const {
+      burgers,
+      selectedBurger,
+      menu,
+      addBurgerIngredient,
+      removeBurgerIngredient,
+    } = this.props;
+    const burgersRenderArr = getBurgersRenderArr(burgers, menu);
+    const prices = getBurgersPrices(burgers, menu);
+    const totalPrice = getTotalPriceFromPrices(prices);
+    const menuValues = getMenuValuesArr(menu);
+    const addIngredientToSelectedBurger = (ingredientType) =>
+      addBurgerIngredient(selectedBurger, ingredientType);
 
     const modal = this.state.isCheckoutModalActive ? (
       <AriaModal
@@ -279,7 +291,9 @@ class BurgerBuilder extends React.Component {
         underlayStyle={{ paddingTop: '2em' }}
       >
         <OrderSummary
-          summary={<IngredientSummary burgers={burgers} prices={prices} />}
+          summary={
+            <IngredientSummary burgers={burgersRenderArr} prices={prices} />
+          }
           totalPrice={totalPrice}
           cancelBtnClick={this.deactivateCheckoutModal}
           checkoutUrl="/checkout"
@@ -291,18 +305,21 @@ class BurgerBuilder extends React.Component {
 
     return (
       <>
-        <BurgerList burgers={burgers} isLoading={isBurgerContentLoading} />
+        <BurgerList
+          burgers={burgersRenderArr}
+          isLoading={isBurgerContentLoading}
+        />
         <BurgerControls
-          burgers={burgers}
+          burgers={burgersRenderArr}
           prices={prices}
           totalPrice={totalPrice}
-          availableIngredients={availableIngredients}
-          addBurger={this.addBurger}
-          removeBurger={this.removeBurger}
-          addIngredient={this.addIngredient}
-          addIngredientSelectedBurger={this.addIngredientSelectedBurger}
-          removeIngredient={this.removeIngredient}
-          activateCheckoutModal={this.activateCheckoutModal}
+          availableIngredients={menuValues}
+          addBurger={() => null}
+          removeBurger={() => null}
+          addIngredient={addBurgerIngredient}
+          addIngredientSelectedBurger={addIngredientToSelectedBurger}
+          removeIngredient={removeBurgerIngredient}
+          activateCheckoutModal={() => null}
           isLoading={isBurgerContentLoading}
         />
         {modal}
@@ -313,4 +330,22 @@ class BurgerBuilder extends React.Component {
 
 BurgerBuilder.propTypes = {};
 
-export default withAxiosErrorHandler(BurgerBuilder, axios);
+const mapStateToProps = (state) => ({
+  burgers: getBurgers(state),
+  selectedBurger: getSelectedBurger(state),
+  menu: getMenu(state),
+});
+
+export default withAxiosErrorHandler(
+  connect(mapStateToProps, {
+    addBurger,
+    addBurgerIngredient,
+    clearBurger,
+    moveBurgerIngredient,
+    removeBurger,
+    removeBurgerIngredient,
+    setBurgerIngredients,
+    sortBurger,
+  })(BurgerBuilder),
+  axios
+);

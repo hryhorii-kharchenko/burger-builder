@@ -19,7 +19,7 @@ function Burger({ ingredientList, isLoading }) {
   }
 
   const ingredients = ingredientList.map((ingredient) => (
-    <BurgerIngredient type={ingredient.slice(0, -9)} key={ingredient} />
+    <BurgerIngredient type={ingredient.type} key={ingredient.id} />
   ));
 
   return <article styleName="burger">{ingredients}</article>;
@@ -28,7 +28,9 @@ function Burger({ ingredientList, isLoading }) {
 Burger.defaultProps = { ingredientList: [], isLoading: false };
 
 Burger.propTypes = {
-  ingredientList: PropTypes.arrayOf(PropTypes.string),
+  ingredientList: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.string, type: PropTypes.string })
+  ).isRequired,
   isLoading: PropTypes.bool,
 };
 

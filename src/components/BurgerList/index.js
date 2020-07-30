@@ -19,7 +19,11 @@ BurgerList.defaultProps = {
 
 BurgerList.propTypes = {
   isLoading: PropTypes.bool,
-  burgers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  burgers: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({ id: PropTypes.string, type: PropTypes.string })
+    )
+  ).isRequired,
 };
 
 export default BurgerList;
