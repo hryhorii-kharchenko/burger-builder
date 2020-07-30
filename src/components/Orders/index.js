@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import axios from '../../axios-orders';
+import { getBurgersIngredientTuplesFromBurgersObjArr } from '../../reducers/burgers';
 import IngredientSummary from '../IngredientSummary';
 import Spinner from '../Spinner';
 import withAxiosErrorHandler from '../withAxiosErrorHandler';
@@ -22,7 +23,7 @@ class Orders extends React.Component {
         return null;
       })
       .then((orders) => {
-        const burgers = this.setState({ orders });
+        this.setState({ orders });
       });
   }
 
@@ -34,15 +35,19 @@ class Orders extends React.Component {
       const ordersJsx = Object.values(orders).map((order, index) => {
         const burgers = Array.from(order.burgers);
         const prices = burgers.map((burger) => burger.price);
-        const burgersWithoutPrices = burgers.map((burger) => {
+        const burgerObjArr = burgers.map((burger) => {
           delete burger.price;
           return burger;
         });
+        const burgersIngredientTuples = getBurgersIngredientTuplesFromBurgersObjArr(
+          burgerObjArr
+        );
+
         return (
           <article>
             <h3>Order {orderKeys[index]}</h3>
             <IngredientSummary
-              burgersObj={burgersWithoutPrices}
+              burgersIngredientTuples={burgersIngredientTuples}
               prices={prices}
             />
           </article>

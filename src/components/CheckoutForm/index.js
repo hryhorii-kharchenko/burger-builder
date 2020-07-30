@@ -172,38 +172,18 @@ class CheckoutForm extends React.Component {
       return;
     }
 
-    const { burgers, prices, history } = this.props;
+    const { burgerObjArr, prices, totalPrice, history } = this.props;
 
-    if (burgers.length === 0 || prices.length === 0) {
+    if (burgerObjArr.length === 0 || prices.length === 0 || totalPrice === 0) {
       this.setState({ globalErrorMsg: 'There is no burger to order' });
       return;
     }
 
     this.setState({ globalErrorMsg: '' });
 
-    const totalPrice = parseFloat(
-      prices.reduce((prev, current) => prev + current, 0).toFixed(2)
-    );
-    const burgerObjects = burgers.map((burger, index) => {
-      const burgerObj = {};
-
-      for (const ingredient of burger) {
-        const bareIngredient = ingredient.slice(0, -9);
-
-        if (burgerObj[bareIngredient]) {
-          burgerObj[bareIngredient] += 1;
-        } else {
-          burgerObj[bareIngredient] = 1;
-        }
-      }
-      burgerObj.price = prices[index];
-
-      return burgerObj;
-    });
-
     const orderInfo = {
       totalPrice,
-      burgers: burgerObjects,
+      burgers: burgerObjArr,
       customer: {
         name,
         email,
@@ -218,8 +198,8 @@ class CheckoutForm extends React.Component {
       .catch((error) => console.log(error))
       .finally(
         () => {
-          localStorage.removeItem('burgers');
-          localStorage.removeItem('prices');
+          // localStorage.removeItem('burgers');
+          // localStorage.removeItem('prices');
           history.push(
             '/thankyou'
             // '/thankyou/?burgers=' + encodeURIComponent(JSON.stringify(burgers))
@@ -311,8 +291,9 @@ class CheckoutForm extends React.Component {
 }
 
 CheckoutForm.propTypes = {
-  burgers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  burgerObjArr: PropTypes.arrayOf(PropTypes.object).isRequired,
   prices: PropTypes.arrayOf(PropTypes.number).isRequired,
+  totalPrice: PropTypes.number.isRequired,
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,

@@ -2,42 +2,43 @@ import './style.module.css';
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 
+import {
+  getBurgers,
+  getBurgersIngredientTuplesFromBurgersObjArr,
+  getBurgersObjArr,
+  getBurgersPrices,
+  getBurgersRenderArr,
+  getTotalPriceFromPrices,
+} from '../../reducers/burgers';
+import { getMenu } from '../../reducers/menu';
 import CheckoutForm from '../CheckoutForm';
 import IngredientSummary from '../IngredientSummary';
 
 class Checkout extends React.Component {
-  constructor(props) {
-    super(props);
-
-    let burgers = [];
-    const burgersJson = localStorage.getItem('burgers');
-    if (burgersJson !== null) {
-      burgers = JSON.parse(burgersJson);
-    }
-
-    let prices = [];
-    const pricesJson = localStorage.getItem('prices');
-    if (pricesJson !== null) {
-      prices = JSON.parse(pricesJson);
-    }
-
-    this.state = {
-      burgers,
-      prices,
-    };
-  }
-
   render() {
-    const { burgers, prices } = this.state;
+    const {
+      burgerObjArr,
+      burgersIngredientTuples,
+      prices,
+      totalPrice,
+    } = this.props;
 
     return (
       <>
         <section styleName="checkout">
           <h1>Checkout</h1>
           <section styleName="wrapper">
-            <CheckoutForm burgers={burgers} prices={prices} />
-            <IngredientSummary burgers={burgers} prices={prices} />
+            <CheckoutForm
+              burgerObjArr={burgerObjArr}
+              prices={prices}
+              totalPrice={totalPrice}
+            />
+            <IngredientSummary
+              burgersIngredientTuples={burgersIngredientTuples}
+              prices={prices}
+            />
           </section>
         </section>
       </>
@@ -47,4 +48,22 @@ class Checkout extends React.Component {
 
 Checkout.propTypes = {};
 
-export default Checkout;
+const mapStateToProps = (state) => {
+  const burgers = getBurgers(state);
+  const menu = getMenu(state);
+
+  const burgersRenderArr = getBurgersRenderArr(burgers, menu);
+  const burgerObjArr = getBurgersObjArr(burgersRenderArr);
+  const prices = getBurgersPrices(burgers, menu);
+
+  return {
+    burgerObjArr,
+    burgersIngredientTuples: getBurgersIngredientTuplesFromBurgersObjArr(
+      burgerObjArr
+    ),
+    prices,
+    totalPrice: getTotalPriceFromPrices(prices),
+  };
+};
+
+export default connect(mapStateToProps)(Checkout);

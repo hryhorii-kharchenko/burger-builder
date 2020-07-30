@@ -92,7 +92,7 @@ export const getBurgersObjArr = (burgersRenderArr) =>
     return burgerObj;
   });
 
-export const getBurgerIngredientTuplesFromBurgers = (burgersRenderArr) =>
+export const getBurgersIngredientTuplesFromBurgers = (burgersRenderArr) =>
   burgersRenderArr.map((burger) => {
     return burger.reduce((prev, current) => {
       const { id, type } = current;
@@ -108,7 +108,7 @@ export const getBurgerIngredientTuplesFromBurgers = (burgersRenderArr) =>
     }, []);
   });
 
-export const getBurgerIngredientTuplesFromBurgersObjArr = (burgersObjArr) =>
+export const getBurgersIngredientTuplesFromBurgersObjArr = (burgersObjArr) =>
   burgersObjArr.map((burgerObj) => Object.entries(burgerObj));
 
 export const getBurgerPrice = (burger, menu) =>
@@ -135,7 +135,7 @@ export const getTotalPriceFromBurgers = (burgers, menu) =>
 export const getTotalPriceFromPrices = (prices) =>
   parseFloat(prices.reduce((prev, current) => prev + current, 0).toFixed(2));
 
-export function burgerSort(a, b) {
+function burgerSort(a, b) {
   const bareA = a.slice(0, -9);
   const bareB = b.slice(0, -9);
 
