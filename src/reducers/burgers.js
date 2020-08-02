@@ -1,4 +1,5 @@
 import arrayMove from 'array-move';
+import uniqid from 'uniqid';
 
 import {
   ADD_BURGER,
@@ -7,9 +8,10 @@ import {
   MOVE_BURGER_INGREDIENT,
   REMOVE_BURGER,
   REMOVE_BURGER_INGREDIENT,
+  SET_BURGERS,
   SET_BURGER_INGREDIENTS,
   SORT_BURGER,
-} from '../constants/actiosTypes';
+} from '../constants/actionTypes';
 import { getMenuIngredientCssName, getMenuIngredientPrice } from './menu';
 
 const initialState = [
@@ -32,6 +34,8 @@ export default function burgers(state = initialState, action) {
       return state.filter((_burger, index) => index !== payload);
     case CLEAR_BURGER:
       return [];
+    case SET_BURGERS:
+      return [...payload];
     case SORT_BURGER:
       return state.map((burger, index) =>
         index === payload ? [...burger].sort(burgerSort) : burger
@@ -64,6 +68,17 @@ export default function burgers(state = initialState, action) {
 }
 
 export const getBurgers = (state) => state.burgers;
+
+export const getBurgersFromJsonObj = (jsonObj) =>
+  Array.from(jsonObj).map((burger) =>
+    Array.from(burger).map((ingredient) => {
+      ingredient.id = uniqid.time(ingredient.ingredientId + '-');
+      return ingredient;
+    })
+  );
+
+export const getIsBurgersEmpty = (burgers) =>
+  burgers.every((burger) => burger.length === 0);
 
 export const getBurgerIngredientId = (ingredient) => ingredient.ingredientId;
 

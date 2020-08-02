@@ -7,6 +7,7 @@ import {
   addBurger,
   addBurgerIngredient,
   clearBurger,
+  loadBurgersFromServer,
   moveBurgerIngredient,
   removeBurger,
   removeBurgerIngredient,
@@ -19,6 +20,7 @@ import {
   getBurgersIngredientTuplesFromBurgers,
   getBurgersPrices,
   getBurgersRenderArr,
+  getIsBurgersEmpty,
   getTotalPriceFromPrices,
 } from '../../reducers/burgers';
 import { getMenu, getMenuValuesArr } from '../../reducers/menu';
@@ -30,66 +32,41 @@ import OrderSummary from '../OrderSummary';
 import withAxiosErrorHandler from '../withAxiosErrorHandler';
 
 class BurgerBuilder extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isCheckoutModalActive: false,
-      isCheckoutRequestLoading: false,
-      isBurgerContentLoading: true,
-    };
-
-    this.activateCheckoutModal = this.activateCheckoutModal.bind(this);
-    this.deactivateCheckoutModal = this.deactivateCheckoutModal.bind(this);
-  }
+  state = {
+    isCheckoutModalActive: false,
+    isCheckoutRequestLoading: false,
+    isBurgerContentLoading: true,
+  };
 
   componentDidMount() {
-    const burgersJson = localStorage.getItem('burgers');
-    if (burgersJson !== null) {
-      const burgers = JSON.parse(burgersJson);
-      this.setState({
-        ...burgers,
-        isBurgerContentLoading: false,
-      });
-      return;
-    }
+    const { burgers, loadBurgersFromServer } = this.props;
 
-    axios
-      .get('/ingredients.json')
-      .then(
-        (response) =>
-          Object.entries(response.data).map(
-            (tuple) => tuple[0] + '-' + tuple[1]
-          )
-        // .sort(burgerSort)
-      )
-      .catch((error) => {
-        console.log(error);
-        return ['bread-top-00000001', 'meat-00000003', 'bread-bottom-00000005'];
-      })
-      .then((ingredients) =>
-        this.setState({
-          0: [...ingredients],
-          isBurgerContentLoading: false,
-        })
-      )
-      .then(() => {
-        this.persistState();
-      })
-      .catch((error) => console.log(error));
+    if (getIsBurgersEmpty(burgers)) {
+      loadBurgersFromServer('/burgers/default.json', () =>
+        this.setIsBurgerContentLoading(false)
+      );
+    } else {
+      this.setIsBurgerContentLoading(false);
+    }
   }
 
-  activateCheckoutModal() {
+  activateCheckoutModal = () => {
     this.setState({
       isCheckoutModalActive: true,
     });
-  }
+  };
 
-  deactivateCheckoutModal() {
+  deactivateCheckoutModal = () => {
     this.setState({
       isCheckoutModalActive: false,
     });
-  }
+  };
+
+  setIsBurgerContentLoading = (value) => {
+    this.setState({
+      isBurgerContentLoading: value,
+    });
+  };
 
   render() {
     const {
@@ -178,6 +155,7 @@ export default withAxiosErrorHandler(
     addBurger,
     addBurgerIngredient,
     clearBurger,
+    loadBurgersFromServer,
     moveBurgerIngredient,
     removeBurger,
     removeBurgerIngredient,

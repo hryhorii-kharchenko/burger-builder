@@ -33,12 +33,8 @@ class Orders extends React.Component {
     if (orders) {
       const orderKeys = Object.keys(orders);
       const ordersJsx = Object.values(orders).map((order, index) => {
-        const burgers = Array.from(order.burgers);
-        const prices = burgers.map((burger) => burger.price);
-        const burgerObjArr = burgers.map((burger) => {
-          delete burger.price;
-          return burger;
-        });
+        const burgerObjArr = Array.from(order.burgers);
+        const { prices } = order;
         const burgersIngredientTuples = getBurgersIngredientTuplesFromBurgersObjArr(
           burgerObjArr
         );

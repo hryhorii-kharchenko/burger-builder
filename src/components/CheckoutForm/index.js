@@ -183,6 +183,7 @@ class CheckoutForm extends React.Component {
 
     const orderInfo = {
       totalPrice,
+      prices,
       burgers: burgerObjArr,
       customer: {
         name,

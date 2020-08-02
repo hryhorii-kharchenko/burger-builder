@@ -1,7 +1,7 @@
 import {
   ADD_MENU_INGREDIENT,
   REMOVE_MENU_INGREDIENT,
-} from '../constants/actiosTypes';
+} from '../constants/actionTypes';
 
 const initialState = {
   breadTop: {
