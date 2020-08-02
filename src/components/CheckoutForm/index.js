@@ -174,10 +174,10 @@ class CheckoutForm extends React.Component {
 
     const { burgerObjArr, prices, totalPrice, history } = this.props;
 
-    if (burgerObjArr.length === 0 || prices.length === 0 || totalPrice === 0) {
-      this.setState({ globalErrorMsg: 'There is no burger to order' });
-      return;
-    }
+    // if (burgerObjArr.length === 0 || prices.length === 0 || totalPrice === 0) {
+    //   this.setState({ globalErrorMsg: 'There is no burger to order' });
+    //   return;
+    // }
 
     this.setState({ globalErrorMsg: '' });
 

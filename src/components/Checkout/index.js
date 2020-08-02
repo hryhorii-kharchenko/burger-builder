@@ -3,6 +3,7 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import {
   getBurgers,
@@ -10,6 +11,7 @@ import {
   getBurgersObjArr,
   getBurgersPrices,
   getBurgersRenderArr,
+  getIsBurgersEmpty,
   getTotalPriceFromPrices,
 } from '../../reducers/burgers';
 import { getMenu } from '../../reducers/menu';
@@ -19,11 +21,15 @@ import IngredientSummary from '../IngredientSummary';
 class Checkout extends React.Component {
   render() {
     const {
+      isBurgersEmpty,
       burgerObjArr,
       burgersIngredientTuples,
       prices,
       totalPrice,
     } = this.props;
+
+    if (isBurgersEmpty || prices.length === 0 || totalPrice === 0)
+      return <Redirect to="/" />;
 
     return (
       <>
@@ -57,6 +63,7 @@ const mapStateToProps = (state) => {
   const prices = getBurgersPrices(burgers, menu);
 
   return {
+    isBurgersEmpty: getIsBurgersEmpty(burgers),
     burgerObjArr,
     burgersIngredientTuples: getBurgersIngredientTuplesFromBurgersObjArr(
       burgerObjArr

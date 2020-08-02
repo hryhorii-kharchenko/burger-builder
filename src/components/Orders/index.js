@@ -12,6 +12,7 @@ import withAxiosErrorHandler from '../withAxiosErrorHandler';
 class Orders extends React.Component {
   state = {
     orders: null,
+    isLoading: true,
   };
 
   componentDidMount() {
@@ -23,37 +24,42 @@ class Orders extends React.Component {
         return null;
       })
       .then((orders) => {
-        this.setState({ orders });
+        this.setState({ orders, isLoading: false });
       });
   }
 
   render() {
-    const { orders } = this.state;
+    const { orders, isLoading } = this.state;
 
-    if (orders) {
-      const orderKeys = Object.keys(orders);
-      const ordersJsx = Object.values(orders).map((order, index) => {
-        const burgerObjArr = Array.from(order.burgers);
-        const { prices } = order;
-        const burgersIngredientTuples = getBurgersIngredientTuplesFromBurgersObjArr(
-          burgerObjArr
-        );
+    if (isLoading) return <Spinner />;
 
-        return (
-          <article>
-            <h3>Order {orderKeys[index]}</h3>
-            <IngredientSummary
-              burgersIngredientTuples={burgersIngredientTuples}
-              prices={prices}
-            />
-          </article>
-        );
-      });
+    if (!orders)
+      return (
+        <section style={{ textAlign: 'center' }}>
+          You haven't ordered from us yet!
+        </section>
+      );
 
-      return <section>{ordersJsx}</section>;
-    }
+    const orderKeys = Object.keys(orders);
+    const ordersJsx = Object.values(orders).map((order, index) => {
+      const burgerObjArr = Array.from(order.burgers);
+      const { prices } = order;
+      const burgersIngredientTuples = getBurgersIngredientTuplesFromBurgersObjArr(
+        burgerObjArr
+      );
 
-    return <Spinner />;
+      return (
+        <article>
+          <h3>Order {orderKeys[index]}</h3>
+          <IngredientSummary
+            burgersIngredientTuples={burgersIngredientTuples}
+            prices={prices}
+          />
+        </article>
+      );
+    });
+
+    return <section>{ordersJsx}</section>;
   }
 }
 
