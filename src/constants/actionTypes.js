@@ -10,3 +10,9 @@ export const MOVE_BURGER_INGREDIENT = 'MOVE_BURGER_INGREDIENT';
 
 export const ADD_MENU_INGREDIENT = 'ADD_MENU_INGREDIENT';
 export const REMOVE_MENU_INGREDIENT = 'REMOVE_MENU_INGREDIENT';
+
+export const LOG_IN = 'LOG_IN';
+export const LOG_OUT = 'LOG_OUT';
+export const AUTH_START = 'AUTH_START';
+export const AUTH_END = 'AUTH_END';
+export const AUTH_ERROR = 'AUTH_ERROR';

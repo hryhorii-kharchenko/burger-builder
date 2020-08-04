@@ -9,8 +9,17 @@ import Logo from '../Logo';
 import Toolbar from '../Toolbar';
 import ToolbarItem from '../ToolbarItem';
 
-function SideDrawer({ isActive, deactivate }) {
+function SideDrawer({ isActive, deactivate, isAuth, logOut }) {
   const styleName = 'side-drawer' + (isActive ? ' active' : '');
+
+  const authLinks = isAuth ? (
+    <ToolbarItem title="Log out" onClick={logOut} isVertical isButton />
+  ) : (
+    <>
+      <ToolbarItem title="Log in" link="/sign-in" isVertical />
+      <ToolbarItem title="Sign up" link="/sign-up" isVertical />
+    </>
+  );
 
   return (
     <>
@@ -20,16 +29,18 @@ function SideDrawer({ isActive, deactivate }) {
           <ToolbarItem
             title="Build your burger"
             link="/"
-            isActive
             isVertical
             onClick={deactivate}
           />
-          <ToolbarItem
-            title="My orders"
-            link="/orders"
-            isVertical
-            onClick={deactivate}
-          />
+          {isAuth ? (
+            <ToolbarItem
+              title="My orders"
+              link="/orders"
+              isVertical
+              onClick={deactivate}
+            />
+          ) : null}
+          {authLinks}
         </Toolbar>
         <CloseButton onClick={deactivate} top="15px" right="15px" />
       </section>
@@ -40,8 +51,14 @@ function SideDrawer({ isActive, deactivate }) {
 
 SideDrawer.defaultProps = {
   isActive: false,
+  isAuth: false,
 };
 
-SideDrawer.propTypes = { isActive: PropTypes.bool, deactivate: PropTypes.func };
+SideDrawer.propTypes = {
+  isActive: PropTypes.bool,
+  deactivate: PropTypes.func,
+  isAuth: PropTypes.bool,
+  logOut: PropTypes.func.isRequired,
+};
 
 export default SideDrawer;

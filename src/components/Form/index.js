@@ -3,8 +3,12 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function Form({ children, onSumbit }) {
-  return <form onSubmit={onSumbit}>{children}</form>;
+function Form({ children, className, onSumbit }) {
+  return (
+    <form className={className} onSubmit={onSumbit}>
+      {children}
+    </form>
+  );
 }
 
 Form.propTypes = {

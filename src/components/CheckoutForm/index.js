@@ -2,9 +2,11 @@ import './style.module.css';
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import axios from '../../axios-orders';
+import { getIsAuth, getToken, getUserId } from '../../reducers/auth';
 import DropDown from '../DropDown';
 import Form from '../Form';
 import Input from '../Input';
@@ -172,16 +174,19 @@ class CheckoutForm extends React.Component {
       return;
     }
 
-    const { burgerObjArr, prices, totalPrice, history } = this.props;
-
-    // if (burgerObjArr.length === 0 || prices.length === 0 || totalPrice === 0) {
-    //   this.setState({ globalErrorMsg: 'There is no burger to order' });
-    //   return;
-    // }
+    const {
+      burgerObjArr,
+      prices,
+      totalPrice,
+      history,
+      token,
+      userId,
+    } = this.props;
 
     this.setState({ globalErrorMsg: '' });
 
     const orderInfo = {
+      userId,
       totalPrice,
       prices,
       burgers: burgerObjArr,
@@ -193,9 +198,11 @@ class CheckoutForm extends React.Component {
       deliveryMethod,
     };
 
+    const orderUrl = `/orders.json?auth=${token}`;
+
     axios
-      .post('/orders.json', orderInfo)
-      .then((response) => this.deactivateCheckoutModal())
+      .post(orderUrl, orderInfo)
+      .then((_response) => this.deactivateCheckoutModal())
       .catch((error) => console.log(error))
       .finally(
         () => {
@@ -300,4 +307,9 @@ CheckoutForm.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-export default withRouter(CheckoutForm);
+const mapStateToProps = (state) => ({
+  token: getToken(state),
+  userId: getUserId(state),
+});
+
+export default withRouter(connect(mapStateToProps)(CheckoutForm));

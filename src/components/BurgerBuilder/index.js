@@ -15,6 +15,7 @@ import {
   sortBurger,
 } from '../../actions';
 import axios from '../../axios-orders';
+import { getIsAuth } from '../../reducers/auth';
 import {
   getBurgers,
   getBurgersIngredientTuplesFromBurgers,
@@ -76,20 +77,17 @@ class BurgerBuilder extends React.Component {
     } = this.state;
 
     const {
-      burgers,
+      isAuth,
       selectedBurger,
-      menu,
+      burgersRenderArr,
+      burgersIngredientTuples,
+      prices,
+      totalPrice,
+      menuValues,
       addBurgerIngredient,
       removeBurgerIngredient,
     } = this.props;
 
-    const burgersRenderArr = getBurgersRenderArr(burgers, menu);
-    const burgersIngredientTuples = getBurgersIngredientTuplesFromBurgers(
-      burgersRenderArr
-    );
-    const prices = getBurgersPrices(burgers, menu);
-    const totalPrice = getTotalPriceFromPrices(prices);
-    const menuValues = getMenuValuesArr(menu);
     const addIngredientToSelectedBurger = (ingredientType) =>
       addBurgerIngredient(selectedBurger, ingredientType);
 
@@ -110,7 +108,7 @@ class BurgerBuilder extends React.Component {
           }
           totalPrice={totalPrice}
           cancelBtnClick={this.deactivateCheckoutModal}
-          checkoutUrl="/checkout"
+          checkoutUrl={isAuth ? '/checkout' : '/sign-in?redirectToCheckout'}
           checkouBtntId="checkout-modal-order-summary-checkout-btn"
           isLoading={isCheckoutRequestLoading}
         />
@@ -144,11 +142,28 @@ class BurgerBuilder extends React.Component {
 
 BurgerBuilder.propTypes = {};
 
-const mapStateToProps = (state) => ({
-  burgers: getBurgers(state),
-  selectedBurger: getSelectedBurger(state),
-  menu: getMenu(state),
-});
+const mapStateToProps = (state) => {
+  const burgers = getBurgers(state);
+  const menu = getMenu(state);
+  const isAuth = getIsAuth(state);
+
+  const burgersRenderArr = getBurgersRenderArr(burgers, menu);
+  const prices = getBurgersPrices(burgers, menu);
+
+  return {
+    burgers,
+    menu,
+    isAuth,
+    selectedBurger: getSelectedBurger(state),
+    burgersRenderArr,
+    burgersIngredientTuples: getBurgersIngredientTuplesFromBurgers(
+      burgersRenderArr
+    ),
+    prices,
+    totalPrice: getTotalPriceFromPrices(prices),
+    menuValues: getMenuValuesArr(menu),
+  };
+};
 
 export default withAxiosErrorHandler(
   connect(mapStateToProps, {

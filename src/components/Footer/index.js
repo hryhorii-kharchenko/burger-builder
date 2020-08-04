@@ -7,18 +7,20 @@ import Logo from '../Logo';
 import Toolbar from '../Toolbar';
 import ToolbarItem from '../ToolbarItem';
 
-function Footer() {
+function Footer({ isAuth }) {
   return (
     <footer styleName="footer">
       <Logo location="footer" />
       <Toolbar location="footer">
-        <ToolbarItem title="Build your burger" link="/" isActive />
-        <ToolbarItem title="My orders" link="/orders" />
+        <ToolbarItem title="Build your burger" link="/" />
+        {isAuth ? <ToolbarItem title="My orders" link="/orders" /> : null}
       </Toolbar>
     </footer>
   );
 }
 
-Footer.propTypes = {};
+Footer.defaultProps = { isAuth: false };
+
+Footer.propTypes = { isAuth: PropTypes.bool };
 
 export default Footer;

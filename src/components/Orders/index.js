@@ -2,8 +2,11 @@ import './style.module.css';
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import axios from '../../axios-orders';
+import { getIsAuth, getToken, getUserId } from '../../reducers/auth';
 import { getBurgersIngredientTuplesFromBurgersObjArr } from '../../reducers/burgers';
 import IngredientSummary from '../IngredientSummary';
 import Spinner from '../Spinner';
@@ -16,21 +19,33 @@ class Orders extends React.Component {
   };
 
   componentDidMount() {
+    const { isAuth, token, userId } = this.props;
+    if (!isAuth) return;
+
+    const ordersUrl = `/orders.json?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
+
     axios
-      .get('/orders.json')
+      .get(ordersUrl)
       .then((response) => response.data)
       .catch((err) => {
         console.log(err);
         return null;
       })
       .then((orders) => {
-        this.setState({ orders, isLoading: false });
+        const isOrdersEmpty =
+          Object.keys(orders).length === 0 && orders.constructor === Object;
+        this.setState({
+          orders: isOrdersEmpty ? null : orders,
+          isLoading: false,
+        });
       });
   }
 
   render() {
     const { orders, isLoading } = this.state;
+    const { isAuth } = this.props;
 
+    if (!isAuth) return <Redirect to="/sign-in" />;
     if (isLoading) return <Spinner />;
 
     if (!orders)
@@ -65,4 +80,10 @@ class Orders extends React.Component {
 
 Orders.propTypes = {};
 
-export default withAxiosErrorHandler(Orders, axios);
+const mapStateToProps = (state) => ({
+  isAuth: getIsAuth(state),
+  token: getToken(state),
+  userId: getUserId(state),
+});
+
+export default withAxiosErrorHandler(connect(mapStateToProps)(Orders), axios);

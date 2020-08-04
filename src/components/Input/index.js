@@ -16,7 +16,7 @@ function Input({
   errorMessage,
 }) {
   if (type === 'submit') {
-    return <input type={type} styleName="input-submit" />;
+    return <input type={type} styleName="input-submit" value={value} />;
   }
 
   return (
@@ -45,6 +45,8 @@ function Input({
 Input.defaultProps = {
   label: '',
   type: 'text',
+  onBlur: null,
+  onChange: null,
   isDisabled: false,
   isRequired: false,
   errorMessage: '',
@@ -56,8 +58,8 @@ Input.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   isDisabled: PropTypes.bool,
   isRequired: PropTypes.bool,
   errorMessage: PropTypes.string,
