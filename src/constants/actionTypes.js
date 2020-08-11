@@ -1,6 +1,6 @@
 export const ADD_BURGER = 'ADD_BURGER';
 export const REMOVE_BURGER = 'REMOVE_BURGER';
-export const CLEAR_BURGER = 'CLEAR_BURGER';
+export const CLEAR_BURGERS = 'CLEAR_BURGERS';
 export const SET_BURGERS = 'SET_BURGERS';
 export const SORT_BURGER = 'SORT_BURGER';
 export const SET_BURGER_INGREDIENTS = 'SET_BURGER_INGREDIENTS';
@@ -16,3 +16,5 @@ export const LOG_OUT = 'LOG_OUT';
 export const AUTH_START = 'AUTH_START';
 export const AUTH_END = 'AUTH_END';
 export const AUTH_ERROR = 'AUTH_ERROR';
+
+export const CHANGE_SELECTED_BURGER = 'CHANGE_SELECTED_BURGER';

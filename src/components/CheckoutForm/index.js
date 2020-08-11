@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import axios from '../../axios-orders';
-import { getIsAuth, getToken, getUserId } from '../../reducers/auth';
+import { getToken, getUserId } from '../../reducers/auth';
 import DropDown from '../DropDown';
 import Form from '../Form';
 import Input from '../Input';

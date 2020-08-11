@@ -1,5 +1,19 @@
 .burger-controls {
+  padding: 30px 25px;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+}
+
+.checkout {
+  max-width: 200px;
+  width: 100%;
+  margin-left: 15px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.checkout-p {
+  margin: 0px;
 }

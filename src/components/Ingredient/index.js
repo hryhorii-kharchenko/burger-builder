@@ -3,7 +3,9 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function Ingredient({ type, onClick }) {
+import CloseButton from '../CloseButton';
+
+function Ingredient({ type, removeIngredient }) {
   let name;
 
   switch (type) {
@@ -32,15 +34,19 @@ function Ingredient({ type, onClick }) {
   }
 
   return name ? (
-    <li styleName="ingredient" onClick={onClick}>
+    <li styleName={'ingredient ' + type}>
       {name}
+      <div styleName="delete-btn" onClick={removeIngredient}>
+        <div styleName="delete-btn-div1" />
+        <div styleName="delete-btn-div2" />
+      </div>
     </li>
   ) : null;
 }
 
 Ingredient.propTypes = {
   type: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  removeIngredient: PropTypes.func.isRequired,
 };
 
 export default Ingredient;

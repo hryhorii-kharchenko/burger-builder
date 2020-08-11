@@ -8,11 +8,7 @@
 
 .vertical {
   margin-right: 0px;
-  margin-bottom: 10px;
-}
-
-.vertical:last-child {
-  margin-bottom: 0px;
+  margin-top: 20px;
 }
 
 .link {

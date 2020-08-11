@@ -44,7 +44,7 @@ function App({ isAuth }) {
   );
 
   return (
-    <div id="application">
+    <div id="application" style={{ minHeight: '100vh', position: 'relative' }}>
       <Router>
         <Layout>{routes}</Layout>
       </Router>

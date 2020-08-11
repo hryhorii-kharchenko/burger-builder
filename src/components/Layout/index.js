@@ -1,3 +1,5 @@
+import './style.module.css';
+
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
@@ -25,7 +27,7 @@ function Layout({ children, isAuth, logOut }) {
         logOut={logOut}
       />
 
-      <main>{children}</main>
+      <main styleName="main">{children}</main>
 
       <Footer isAuth={isAuth} />
     </>

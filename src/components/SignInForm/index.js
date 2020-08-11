@@ -93,39 +93,44 @@ class SignInForm extends React.Component {
     if (isAuth) return redirect;
 
     return (
-      <Form onSumbit={this.submitHandler}>
-        <Input
-          id={idPrefix + 'email'}
-          name="email"
-          label="Email"
-          type="email"
-          value={email}
-          errorMessage={emailErrorMsg}
-          onChange={this.emailChangeHandler}
-          isRequired
-        />
-        <Input
-          id={idPrefix + 'password'}
-          name="password"
-          label="Password"
-          type="password"
-          value={password}
-          errorMessage={passwordErrorMsg}
-          onChange={this.passwordChangeHandler}
-          isRequired
-        />
-        <p>{globalErrorMsg}</p>
-        <footer styleName="footer">
-          <Input type="submit" value="Log in" />
-          <Link
-            to={
-              isRedirectToCheckout ? '/sign-up?redirectToCheckout' : '/sign-up'
-            }
-          >
-            Don't have an account? Sign up
-          </Link>
-        </footer>
-      </Form>
+      <div styleName="signin-form">
+        <Form onSumbit={this.submitHandler}>
+          <Input
+            id={idPrefix + 'email'}
+            name="email"
+            label="Email"
+            type="email"
+            value={email}
+            errorMessage={emailErrorMsg}
+            onChange={this.emailChangeHandler}
+            isRequired
+          />
+          <Input
+            id={idPrefix + 'password'}
+            name="password"
+            label="Password"
+            type="password"
+            value={password}
+            errorMessage={passwordErrorMsg}
+            onChange={this.passwordChangeHandler}
+            isRequired
+          />
+          <p>{globalErrorMsg}</p>
+          <footer styleName="footer">
+            <Input type="submit" value="Log in" />
+            <Link
+              to={
+                isRedirectToCheckout
+                  ? '/sign-up?redirectToCheckout'
+                  : '/sign-up'
+              }
+              styleName="link"
+            >
+              Don't have an account? Sign up
+            </Link>
+          </footer>
+        </Form>
+      </div>
     );
   }
 }

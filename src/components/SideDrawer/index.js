@@ -16,8 +16,18 @@ function SideDrawer({ isActive, deactivate, isAuth, logOut }) {
     <ToolbarItem title="Log out" onClick={logOut} isVertical isButton />
   ) : (
     <>
-      <ToolbarItem title="Log in" link="/sign-in" isVertical />
-      <ToolbarItem title="Sign up" link="/sign-up" isVertical />
+      <ToolbarItem
+        title="Log in"
+        link="/sign-in"
+        isVertical
+        onClick={deactivate}
+      />
+      <ToolbarItem
+        title="Sign up"
+        link="/sign-up"
+        isVertical
+        onClick={deactivate}
+      />
     </>
   );
 
@@ -42,7 +52,7 @@ function SideDrawer({ isActive, deactivate, isAuth, logOut }) {
           ) : null}
           {authLinks}
         </Toolbar>
-        <CloseButton onClick={deactivate} top="15px" right="15px" />
+        <CloseButton onClick={deactivate} top="32px" right="20px" />
       </section>
       <Backdrop isActive={isActive} onClick={deactivate} />
     </>

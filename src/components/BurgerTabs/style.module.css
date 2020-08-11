@@ -1,0 +1,65 @@
+.burger-tabs {
+  position: absolute;
+  top: 30px;
+  left: 100px;
+}
+
+.tab-list {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.tab {
+  padding: 15px 45px 15px 15px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+  font-size: 18px;
+  position: relative;
+}
+
+.active {
+  border: 1px solid #bc581e;
+}
+
+.add-btn {
+  padding: 15px;
+  border: 0;
+  color: black;
+  font-size: 18px;
+  background: linear-gradient(135deg, #ddd 0% 80%, #fff 0% 100%);
+  cursor: pointer;
+}
+
+.delete-btn {
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.delete-btn-div1 {
+  width: 16px;
+  height: 2px;
+  top: 7px;
+  left: 0px;
+  position: absolute;
+  transform: rotate(45deg);
+  background-color: black;
+}
+
+.delete-btn-div2 {
+  width: 16px;
+  height: 2px;
+  top: 7px;
+  left: 0px;
+  position: absolute;
+  transform: rotate(315deg);
+  background-color: black;
+}

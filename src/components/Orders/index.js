@@ -33,7 +33,9 @@ class Orders extends React.Component {
       })
       .then((orders) => {
         const isOrdersEmpty =
-          Object.keys(orders).length === 0 && orders.constructor === Object;
+          orders &&
+          Object.keys(orders).length === 0 &&
+          orders.constructor === Object;
         this.setState({
           orders: isOrdersEmpty ? null : orders,
           isLoading: false,

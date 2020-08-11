@@ -9,6 +9,7 @@ import IngredientMenu from '../IngredientMenu';
 
 function BurgerControls({
   burgers,
+  burgerIds,
   prices,
   totalPrice,
   availableIngredients,
@@ -19,6 +20,8 @@ function BurgerControls({
   removeIngredient,
   activateCheckoutModal,
   isLoading,
+  selectedBurger,
+  changeSelectedBurger,
 }) {
   const ingredientCount = burgers.reduce(
     (prev, current) => prev + current.length,
@@ -27,26 +30,32 @@ function BurgerControls({
 
   return (
     <section styleName="burger-controls">
-      <section>
-        <IngredientMenu
-          ingredients={availableIngredients}
-          totalPrice={totalPrice}
-          addIngredientSelectedBurger={addIngredientSelectedBurger}
-        />
-        <CheckoutButton
-          onClick={activateCheckoutModal}
-          isDisabled={ingredientCount === 0}
-        />
-      </section>
+      <IngredientMenu
+        ingredients={availableIngredients}
+        totalPrice={totalPrice}
+        addIngredientSelectedBurger={addIngredientSelectedBurger}
+      />
       <IngredientComposer
         burgers={burgers}
+        burgerIds={burgerIds}
         prices={prices}
         addBurger={addBurger}
         removeBurger={removeBurger}
         addIngredient={addIngredient}
         removeIngredient={removeIngredient}
         isLoading={isLoading}
+        selectedBurger={selectedBurger}
+        changeSelectedBurger={changeSelectedBurger}
       />
+      <section styleName="checkout">
+        <p styleName="checkout-p">
+          Total price: <strong>{totalPrice}$</strong>
+        </p>
+        <CheckoutButton
+          onClick={activateCheckoutModal}
+          isDisabled={ingredientCount === 0}
+        />
+      </section>
     </section>
   );
 }
@@ -61,6 +70,7 @@ BurgerControls.propTypes = {
       PropTypes.shape({ id: PropTypes.string, type: PropTypes.string })
     )
   ).isRequired,
+  burgerIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   prices: PropTypes.arrayOf(PropTypes.number).isRequired,
   totalPrice: PropTypes.number.isRequired,
   availableIngredients: PropTypes.arrayOf(
@@ -78,6 +88,8 @@ BurgerControls.propTypes = {
   removeIngredient: PropTypes.func.isRequired,
   activateCheckoutModal: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
+  selectedBurger: PropTypes.number.isRequired,
+  changeSelectedBurger: PropTypes.func.isRequired,
 };
 
 export default BurgerControls;

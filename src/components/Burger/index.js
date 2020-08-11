@@ -1,28 +1,59 @@
 import './style.module.css';
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
 import BurgerIngredient from '../BurgerIngredient';
 import Spinner from '../Spinner';
 
 function Burger({ ingredientList, isLoading }) {
+  const burgerRef = useRef(null);
+  const burgerWrapperRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (!burgerRef.current || !burgerWrapperRef.current) return;
+
+    const burgerHeight = burgerRef.current.offsetHeight;
+    const burgerWrapperHeight = burgerWrapperRef.current.clientHeight;
+    const burgerWidth = burgerRef.current.offsetWidth;
+    const burgerWrapperWidth = burgerWrapperRef.current.clientWidth;
+
+    const ratio = Math.min(
+      burgerWrapperHeight / burgerHeight,
+      burgerWrapperWidth / burgerWidth
+    );
+
+    burgerRef.current.style.transform = `translate(-50%, -50%) scale(${
+      ratio <= 1.3 ? ratio : 1.3
+    })`;
+  }, [ingredientList, isLoading, burgerRef, burgerWrapperRef]);
+
   if (isLoading) {
     return (
-      <article styleName="burger">
-        <Spinner />
-      </article>
+      <div styleName="burger-wrapper" ref={burgerWrapperRef}>
+        <article styleName="burger" ref={burgerRef}>
+          <Spinner />
+        </article>
+      </div>
     );
   }
-  if (ingredientList.length === 0) {
-    return <p styleName="burger">Please, add the ingredients</p>;
-  }
 
-  const ingredients = ingredientList.map((ingredient) => (
-    <BurgerIngredient type={ingredient.type} key={ingredient.id} />
-  ));
+  const ingredients =
+    ingredientList.length !== 0 ? (
+      ingredientList.map((ingredient) => (
+        <BurgerIngredient type={ingredient.type} key={ingredient.id} />
+      ))
+    ) : (
+      <p styleName="no-ingredient-text">Please, add the ingredients</p>
+    );
 
-  return <article styleName="burger">{ingredients}</article>;
+  return (
+    <div styleName="burger-wrapper" ref={burgerWrapperRef}>
+      <article styleName="burger" ref={burgerRef}>
+        {ingredients}
+      </article>
+    </div>
+  );
 }
 
 Burger.defaultProps = { ingredientList: [], isLoading: false };

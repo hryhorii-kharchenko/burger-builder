@@ -4,15 +4,14 @@ import {
   AUTH_START,
   LOG_IN,
   LOG_OUT,
-  SET_LOGOUT_TIMEOUT,
 } from '../constants/actionTypes';
 
-const initialState = {
+export const initialState = {
   token: '',
   userId: '',
-  email: '',
   isAuth: false,
   errorMsg: '',
+  loadedAt: '',
 };
 
 export default function auth(state = initialState, action) {
@@ -21,7 +20,13 @@ export default function auth(state = initialState, action) {
   switch (type) {
     case LOG_IN:
       const { token, userId } = payload;
-      return { ...state, token, userId, isAuth: true, errorMsg: '' };
+      return {
+        token,
+        userId,
+        isAuth: true,
+        errorMsg: '',
+        loadedAt: new Date().toJSON(),
+      };
     case LOG_OUT:
       return initialState;
     case AUTH_START:

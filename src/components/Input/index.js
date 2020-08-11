@@ -43,7 +43,9 @@ function Input({
 }
 
 Input.defaultProps = {
+  id: null,
   label: '',
+  name: null,
   type: 'text',
   onBlur: null,
   onChange: null,
@@ -53,8 +55,8 @@ Input.defaultProps = {
 };
 
 Input.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  name: PropTypes.string,
   label: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.string.isRequired,

@@ -1,9 +1,9 @@
 .header {
-  /* height: 69px; */
   margin: 0;
   padding: 15px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
+  background: linear-gradient(135deg, #ddd 0% 165px, #fff 165px 100%);
 }

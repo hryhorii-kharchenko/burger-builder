@@ -128,49 +128,54 @@ class SignUpForm extends React.Component {
     if (isAuth) return redirect;
 
     return (
-      <Form onSumbit={this.submitHandler}>
-        <Input
-          id={idPrefix + 'email'}
-          name="email"
-          label="Email"
-          type="email"
-          value={email}
-          errorMessage={emailErrorMsg}
-          onChange={this.emailChangeHandler}
-          isRequired
-        />
-        <Input
-          id={idPrefix + 'password'}
-          name="password"
-          label="Password"
-          type="password"
-          value={password}
-          errorMessage={passwordErrorMsg}
-          onChange={this.passwordChangeHandler}
-          isRequired
-        />
-        <Input
-          id={idPrefix + 'password-confirm'}
-          name="passwordConfirm"
-          label="Confirm password"
-          type="password"
-          value={passwordConfirm}
-          errorMessage={passwordConfirmErrorMsg}
-          onChange={this.passwordConfirmChangeHandler}
-          isRequired
-        />
-        <p>{globalErrorMsg}</p>
-        <footer styleName="footer">
-          <Input type="submit" value="Sign up" />
-          <Link
-            to={
-              isRedirectToCheckout ? '/sign-in?redirectToCheckout' : '/sign-in'
-            }
-          >
-            Already have an account? Log in
-          </Link>
-        </footer>
-      </Form>
+      <div styleName="signup-form">
+        <Form onSumbit={this.submitHandler}>
+          <Input
+            id={idPrefix + 'email'}
+            name="email"
+            label="Email"
+            type="email"
+            value={email}
+            errorMessage={emailErrorMsg}
+            onChange={this.emailChangeHandler}
+            isRequired
+          />
+          <Input
+            id={idPrefix + 'password'}
+            name="password"
+            label="Password"
+            type="password"
+            value={password}
+            errorMessage={passwordErrorMsg}
+            onChange={this.passwordChangeHandler}
+            isRequired
+          />
+          <Input
+            id={idPrefix + 'password-confirm'}
+            name="passwordConfirm"
+            label="Confirm password"
+            type="password"
+            value={passwordConfirm}
+            errorMessage={passwordConfirmErrorMsg}
+            onChange={this.passwordConfirmChangeHandler}
+            isRequired
+          />
+          <p>{globalErrorMsg}</p>
+          <footer styleName="footer">
+            <Input type="submit" value="Sign up" />
+            <Link
+              to={
+                isRedirectToCheckout
+                  ? '/sign-in?redirectToCheckout'
+                  : '/sign-in'
+              }
+              styleName="link"
+            >
+              Already have an account? Log in
+            </Link>
+          </footer>
+        </Form>
+      </div>
     );
   }
 }

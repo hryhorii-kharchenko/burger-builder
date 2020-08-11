@@ -3,6 +3,10 @@
   text-align: center;
 }
 
+.wrapper {
+  margin-bottom: 40px;
+}
+
 .link {
   margin-right: 15px;
 }

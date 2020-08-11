@@ -8,7 +8,8 @@ import {
   AUTH_END,
   AUTH_ERROR,
   AUTH_START,
-  CLEAR_BURGER,
+  CHANGE_SELECTED_BURGER,
+  CLEAR_BURGERS,
   LOG_IN,
   LOG_OUT,
   MOVE_BURGER_INGREDIENT,
@@ -22,16 +23,16 @@ import defaultBurger from '../constants/defaultBurger';
 import firebaseKey from '../constants/firebaseKey';
 import { getBurgersFromJsonObj } from '../reducers/burgers';
 
-export function addBurger() {
-  return { type: ADD_BURGER };
+export function addBurger(burgersLength) {
+  return { type: ADD_BURGER, payload: burgersLength };
 }
 
-export function removeBurger(burgerIndex) {
-  return { type: REMOVE_BURGER, payload: burgerIndex };
+export function removeBurger(burgerIndex, burgersLength) {
+  return { type: REMOVE_BURGER, payload: { burgerIndex, burgersLength } };
 }
 
-export function clearBurger() {
-  return { type: CLEAR_BURGER };
+export function clearBurgers() {
+  return { type: CLEAR_BURGERS };
 }
 
 export function setBurgers(burgers) {
@@ -91,6 +92,13 @@ export function loadBurgersFromServer(
   };
 }
 
+export function changeSelectedBurger(index) {
+  return {
+    type: CHANGE_SELECTED_BURGER,
+    payload: index,
+  };
+}
+
 export function logIn(token, userId) {
   return {
     type: LOG_IN,
@@ -147,7 +155,6 @@ function auth(email, password, authUrl, dispatch) {
     })
     .then((response) => {
       dispatch(logIn(response.data.idToken, response.data.localId));
-      dispatch(initLogOutTimeout(response.data.expiresIn));
     })
     .catch((error) => {
       if (error.response) {
@@ -157,10 +164,4 @@ function auth(email, password, authUrl, dispatch) {
 
       dispatch(authError(error.message));
     });
-}
-
-function initLogOutTimeout(expiresIn) {
-  return (dispatch) => {
-    setTimeout(() => dispatch(logOut()), expiresIn * 1000);
-  };
 }

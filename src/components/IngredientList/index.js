@@ -9,7 +9,7 @@ function IngredientList({ ingredients, removeIngredient }) {
   const ingredientList = ingredients.map((ingredient, index) => (
     <Ingredient
       type={ingredient.type}
-      onClick={() => removeIngredient(index)}
+      removeIngredient={removeIngredient(index)}
       key={ingredient.id}
     />
   ));

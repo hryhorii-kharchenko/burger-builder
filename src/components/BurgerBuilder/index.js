@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import {
   addBurger,
   addBurgerIngredient,
-  clearBurger,
+  changeSelectedBurger,
+  clearBurgers,
   loadBurgersFromServer,
   moveBurgerIngredient,
   removeBurger,
@@ -16,6 +17,7 @@ import {
 } from '../../actions';
 import axios from '../../axios-orders';
 import { getIsAuth } from '../../reducers/auth';
+import { getBurgerIds } from '../../reducers/burgerIds';
 import {
   getBurgers,
   getBurgersIngredientTuplesFromBurgers,
@@ -25,7 +27,7 @@ import {
   getTotalPriceFromPrices,
 } from '../../reducers/burgers';
 import { getMenu, getMenuValuesArr } from '../../reducers/menu';
-import { getSelectedBurger } from '../../reducers/selecterBurger';
+import { getSelectedBurger } from '../../reducers/selectedBurger';
 import BurgerControls from '../BurgerControls';
 import BurgerList from '../BurgerList';
 import IngredientSummary from '../IngredientSummary';
@@ -86,6 +88,10 @@ class BurgerBuilder extends React.Component {
       menuValues,
       addBurgerIngredient,
       removeBurgerIngredient,
+      changeSelectedBurger,
+      addBurger,
+      removeBurger,
+      burgerIds,
     } = this.props;
 
     const addIngredientToSelectedBurger = (ingredientType) =>
@@ -119,20 +125,28 @@ class BurgerBuilder extends React.Component {
       <>
         <BurgerList
           burgers={burgersRenderArr}
+          burgerIds={burgerIds}
           isLoading={isBurgerContentLoading}
+          selectedBurger={selectedBurger}
+          changeSelectedBurger={changeSelectedBurger}
+          addBurger={addBurger}
+          removeBurger={removeBurger}
         />
         <BurgerControls
           burgers={burgersRenderArr}
+          burgerIds={burgerIds}
           prices={prices}
           totalPrice={totalPrice}
           availableIngredients={menuValues}
-          addBurger={() => null}
-          removeBurger={() => null}
+          addBurger={addBurger}
+          removeBurger={removeBurger}
           addIngredient={addBurgerIngredient}
           addIngredientSelectedBurger={addIngredientToSelectedBurger}
           removeIngredient={removeBurgerIngredient}
           activateCheckoutModal={this.activateCheckoutModal}
           isLoading={isBurgerContentLoading}
+          selectedBurger={selectedBurger}
+          changeSelectedBurger={changeSelectedBurger}
         />
         {modal}
       </>
@@ -162,6 +176,7 @@ const mapStateToProps = (state) => {
     prices,
     totalPrice: getTotalPriceFromPrices(prices),
     menuValues: getMenuValuesArr(menu),
+    burgerIds: getBurgerIds(state),
   };
 };
 
@@ -169,7 +184,8 @@ export default withAxiosErrorHandler(
   connect(mapStateToProps, {
     addBurger,
     addBurgerIngredient,
-    clearBurger,
+    changeSelectedBurger,
+    clearBurgers,
     loadBurgersFromServer,
     moveBurgerIngredient,
     removeBurger,

@@ -23,6 +23,7 @@ function CloseButton({ onClick, className, top, right, bottom, left }) {
 }
 
 CloseButton.defaultProps = {
+  className: null,
   top: null,
   right: null,
   bottom: null,
@@ -31,7 +32,7 @@ CloseButton.defaultProps = {
 
 CloseButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   top: PropTypes.string,
   right: PropTypes.string,
   bottom: PropTypes.string,
