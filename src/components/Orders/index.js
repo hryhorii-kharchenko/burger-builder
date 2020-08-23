@@ -8,6 +8,7 @@ import { Redirect } from 'react-router-dom';
 import axios from '../../axios-orders';
 import { getIsAuth, getToken, getUserId } from '../../reducers/auth';
 import { getBurgersIngredientTuplesFromBurgersObjArr } from '../../reducers/burgers';
+import ContentWrapper from '../ContentWrapper';
 import IngredientSummary from '../IngredientSummary';
 import Spinner from '../Spinner';
 import withAxiosErrorHandler from '../withAxiosErrorHandler';
@@ -66,17 +67,22 @@ class Orders extends React.Component {
       );
 
       return (
-        <article>
-          <h3>Order {orderKeys[index]}</h3>
+        <div>
+          <h2 styleName="order-heading">Order {orderKeys[index]}</h2>
           <IngredientSummary
             burgersIngredientTuples={burgersIngredientTuples}
             prices={prices}
           />
-        </article>
+        </div>
       );
     });
 
-    return <section>{ordersJsx}</section>;
+    return (
+      <ContentWrapper>
+        <h1>Your orders</h1>
+        <section>{ordersJsx}</section>
+      </ContentWrapper>
+    );
   }
 }
 

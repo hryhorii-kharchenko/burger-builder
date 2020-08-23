@@ -126,7 +126,7 @@ class SignInForm extends React.Component {
               }
               styleName="link"
             >
-              Don't have an account? Sign up
+              Don't have an account?
             </Link>
           </footer>
         </Form>

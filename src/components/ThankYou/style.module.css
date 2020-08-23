@@ -9,6 +9,16 @@
 
 .link {
   margin-right: 15px;
+  font-size: 16px;
+  color: #bc581e;
+  text-decoration: none;
+  transition: color 0.1s ease-out, border-bottom 0.1s ease-out;
+}
+
+.link:hover,
+.link:active {
+  color: #F08E4A;
+  border-bottom: 1px solid #F08E4A;
 }
 
 .link:last-child {

@@ -39,9 +39,10 @@ export function setBurgers(burgers) {
   return { type: SET_BURGERS, payload: burgers };
 }
 
-export function sortBurger() {
+export function sortBurger(index) {
   return {
     type: SORT_BURGER,
+    payload: index,
   };
 }
 

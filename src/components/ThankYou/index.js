@@ -7,11 +7,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { clearBurgers } from '../../actions';
+import { getBurgerIds } from '../../reducers/burgerIds';
 import { getBurgers, getBurgersRenderArr } from '../../reducers/burgers';
 import { getMenu } from '../../reducers/menu';
 import BurgerList from '../BurgerList';
 
-function ThankYou({ burgersRenderArr, clearBurgers }) {
+function ThankYou({ burgersRenderArr, burgerIds, clearBurgers }) {
   // const burgers = JSON.parse(
   //   new URLSearchParams(location.search).get('burgers')
   // );
@@ -24,7 +25,11 @@ function ThankYou({ burgersRenderArr, clearBurgers }) {
 
   const burgerList =
     localBurgersRenderArr && localBurgersRenderArr.length !== 0 ? (
-      <BurgerList burgers={localBurgersRenderArr} />
+      <BurgerList
+        burgers={localBurgersRenderArr}
+        burgerIds={burgerIds}
+        isDisplayOnly
+      />
     ) : null;
 
   return (
@@ -47,6 +52,7 @@ ThankYou.propTypes = {};
 
 const mapStateToProps = (state) => ({
   burgersRenderArr: getBurgersRenderArr(getBurgers(state), getMenu(state)),
+  burgerIds: getBurgerIds(state),
 });
 
 export default connect(mapStateToProps, { clearBurgers })(ThankYou);

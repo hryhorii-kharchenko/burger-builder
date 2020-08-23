@@ -91,6 +91,7 @@ class BurgerBuilder extends React.Component {
       changeSelectedBurger,
       addBurger,
       removeBurger,
+      sortBurger,
       burgerIds,
     } = this.props;
 
@@ -143,6 +144,7 @@ class BurgerBuilder extends React.Component {
           addIngredient={addBurgerIngredient}
           addIngredientSelectedBurger={addIngredientToSelectedBurger}
           removeIngredient={removeBurgerIngredient}
+          sortBurger={sortBurger}
           activateCheckoutModal={this.activateCheckoutModal}
           isLoading={isBurgerContentLoading}
           selectedBurger={selectedBurger}

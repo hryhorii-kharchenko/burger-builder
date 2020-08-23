@@ -5,8 +5,8 @@ import React from 'react';
 
 function IngredientSummary({ burgersIngredientTuples, prices }) {
   const ingredientSummary = burgersIngredientTuples.map((burger, index) => (
-    <article>
-      <h3>Burger {index + 1}</h3>
+    <article styleName="burger">
+      <h3 styleName="title">Burger {index + 1}</h3>
       <ul>
         {burger.map((ingredient) => (
           <li key={ingredient[2]}>
@@ -14,7 +14,7 @@ function IngredientSummary({ burgersIngredientTuples, prices }) {
           </li>
         ))}
       </ul>
-      <p>
+      <p styleName="price">
         Price: <strong>{prices[index]}$</strong>
       </p>
     </article>
@@ -25,12 +25,12 @@ function IngredientSummary({ burgersIngredientTuples, prices }) {
     .toFixed(2);
 
   return (
-    <section>
+    <article styleName="order">
       {ingredientSummary}
-      <p>
+      <p styleName="total-price">
         Total price: <strong>{totalPrice}$</strong>
       </p>
-    </section>
+    </article>
   );
 }
 

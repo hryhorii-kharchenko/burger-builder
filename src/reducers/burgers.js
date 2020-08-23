@@ -148,13 +148,13 @@ export const getTotalPriceFromPrices = (prices) =>
 export const getBurgersLength = (burgers) => burgers.length;
 
 function burgerSort(a, b) {
-  const bareA = a.slice(0, -9);
-  const bareB = b.slice(0, -9);
+  const bareA = a.ingredientId;
+  const bareB = b.ingredientId;
 
   let valueA, valueB;
 
   switch (bareA) {
-    case 'bread-top':
+    case 'breadTop':
       valueA = 0;
       break;
     case 'cheese':
@@ -166,7 +166,7 @@ function burgerSort(a, b) {
     case 'salad':
       valueA = 150;
       break;
-    case 'bread-bottom':
+    case 'breadBottom':
       valueA = 10000;
       break;
     default:
@@ -174,7 +174,7 @@ function burgerSort(a, b) {
   }
 
   switch (bareB) {
-    case 'bread-top':
+    case 'breadTop':
       valueB = 0;
       break;
     case 'cheese':
@@ -186,7 +186,7 @@ function burgerSort(a, b) {
     case 'salad':
       valueB = 150;
       break;
-    case 'bread-bottom':
+    case 'breadBottom':
       valueB = 10000;
       break;
     default:

@@ -15,8 +15,9 @@
 }
 
 .burger {
-  max-width: 150px;
+  max-width: 160px;
   min-width: 150px;
+  width: 100%;
   margin-right: 15px;
   padding: 20px;
   border: 1px solid #ddd;
@@ -27,8 +28,24 @@
   border: 1px solid #bc581e;
 }
 
+.burger-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .burger-title {
   margin: 0px;
+}
+
+.burger-sort-btn {
+  width: 20px;
+  height: 20px;
+  /* margin-left: 10px; */
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
 }
 
 .burger-price {

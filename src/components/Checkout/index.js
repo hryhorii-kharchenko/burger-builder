@@ -16,6 +16,7 @@ import {
 } from '../../reducers/burgers';
 import { getMenu } from '../../reducers/menu';
 import CheckoutForm from '../CheckoutForm';
+import ContentWrapper from '../ContentWrapper';
 import IngredientSummary from '../IngredientSummary';
 
 class Checkout extends React.Component {
@@ -33,20 +34,22 @@ class Checkout extends React.Component {
 
     return (
       <>
-        <section styleName="checkout">
-          <h1>Checkout</h1>
-          <section styleName="wrapper">
-            <CheckoutForm
-              burgerObjArr={burgerObjArr}
-              prices={prices}
-              totalPrice={totalPrice}
-            />
-            <IngredientSummary
-              burgersIngredientTuples={burgersIngredientTuples}
-              prices={prices}
-            />
+        <ContentWrapper>
+          <section styleName="checkout">
+            <h1>Checkout</h1>
+            <section styleName="wrapper">
+              <CheckoutForm
+                burgerObjArr={burgerObjArr}
+                prices={prices}
+                totalPrice={totalPrice}
+              />
+              <IngredientSummary
+                burgersIngredientTuples={burgersIngredientTuples}
+                prices={prices}
+              />
+            </section>
           </section>
-        </section>
+        </ContentWrapper>
       </>
     );
   }

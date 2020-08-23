@@ -1,5 +1,5 @@
 .ingredient-menu-item {
-  margin-top: 5px;
+  margin-top: 15px;
 }
 
 .ingredient-menu-item:first-child {
@@ -11,7 +11,7 @@
   padding: 0px 10px;
   border: 0;
   cursor: pointer;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   text-align: left;
   display: flex;
   justify-content: space-between;
@@ -22,36 +22,60 @@
 
 .bread-top {
   /* background: linear-gradient(rgba(50,50,50,0.1), rgba(0,0,0,0.3)), linear-gradient(#bc581e, #e27b36); */
-  background-color: #904317;
-  color: white;
+  /* background-color: #904317; */
+  background: none;
+  /* border: 2px solid #904317; */
+  border-left: 3px solid #bc581e;
+  border-right: 3px solid #bc581e;
+  color: black;
 }
 
 .bread-bottom {
   /* background: linear-gradient(rgba(50,50,50,0.1), rgba(0,0,0,0.3)), linear-gradient(#F08E4A, #e27b36); */
-  background-color: #c8621d;
-  color: white;
+  /* background-color: #c8621d; */
+  background: none;
+  /* border: 2px solid #c8621d; */
+  border-left: 3px solid #F08E4A;
+  border-right: 3px solid #F08E4A;
+  color: black;
 }
 
 .meat {
   /* background: linear-gradient(rgba(50,50,50,0.1), rgba(0,0,0,0.3)), linear-gradient(#7f3608, #702e05); */
-  background-color: #4f2205;
-  color: white;
+  /* background-color: #4f2205; */
+  background: none;
+  /* border: 2px solid #4f2205; */
+  border-left: 3px solid #702e05;
+  border-right: 3px solid #702e05;
+  color: black;
 }
 
 .cheese {
   /* background: linear-gradient(rgba(50,50,50,0.1), rgba(0,0,0,0.3)), linear-gradient(#f4d004, #d6bb22); */
-  background-color: #a99003;
-  color: white;
+  /* background-color: #a99003; */
+  background: none;
+  /* border: 2px solid #a99003; */
+  border-left: 3px solid #f4d004;
+  border-right: 3px solid #f4d004;
+  color: black;
 }
 
 .salad {
   /* background: linear-gradient(rgba(50,50,50,0.1), rgba(0,0,0,0.3)), linear-gradient(#228c1d, #91ce50); */
-  background-color: #186214;
-  color: white;
+  /* background-color: #186214; */
+  background: none;
+  /* border: 2px solid #186214; */
+  border-left: 3px solid #228c1d;
+  border-right: 3px solid #228c1d;
+  color: black;
 }
 
 .bacon {
   /* background: linear-gradient(rgba(50,50,50,0.1), rgba(0,0,0,0.3)), linear-gradient(#bf3813, #c45e38); */
-  background-color: #912a0e;
-  color: white;
+  /* background-color: #912a0e; */
+  background: none;
+  /* border: 2px solid #912a0e; */
+  border-left: 3px solid #bf3813;
+  border-right: 3px solid #bf3813;
+  color: black;
 }

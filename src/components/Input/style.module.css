@@ -1,6 +1,17 @@
 .input {
   width: 100%;
+  margin-top: 5px;
+  padding: 0.7em;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 22px;
   box-sizing: border-box;
+  outline: none;
+}
+
+.input:focus {
+  border: 1px solid #bc581e;
 }
 
 .input-text {
@@ -24,6 +35,8 @@
 }
 
 .error {
+  margin: 5px 0px 15px;
+  font-size: 14px;
   color: red;
 }
 

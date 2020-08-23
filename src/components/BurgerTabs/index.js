@@ -38,7 +38,12 @@ function BurgerTabs({
     <section styleName="burger-tabs">
       <ul styleName="tab-list">
         {tabs}
-        <button styleName="add-btn" onClick={() => addBurger(burgerIds.length)}>
+        <button
+          styleName={`add-btn ${
+            burgerIds.length > 5 ? 'add-btn_disabled' : ''
+          }`}
+          onClick={() => addBurger(burgerIds.length)}
+        >
           +
         </button>
       </ul>

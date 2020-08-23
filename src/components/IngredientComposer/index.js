@@ -3,6 +3,7 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import sortBtnIcon from '../../assets/img/sort.svg';
 import IngredientList from '../IngredientList';
 import Spinner from '../Spinner';
 
@@ -14,6 +15,7 @@ function IngredientComposer({
   removeBurger,
   addIngredient,
   removeIngredient,
+  sortBurger,
   isLoading,
   selectedBurger,
   changeSelectedBurger,
@@ -28,7 +30,12 @@ function IngredientComposer({
       }
       key={burgerIds[index]}
     >
-      <h3 styleName="burger-title">Burger {index + 1}</h3>
+      <header styleName="burger-header">
+        <h3 styleName="burger-title">Burger {index + 1}</h3>
+        <button styleName="burger-sort-btn" onClick={() => sortBurger(index)}>
+          <img src={sortBtnIcon} alt="Sort" />
+        </button>
+      </header>
       <p styleName="burger-price">
         Price: <strong>{prices[index].toFixed(2)}$</strong>
       </p>
@@ -78,6 +85,7 @@ IngredientComposer.propTypes = {
   removeBurger: PropTypes.func.isRequired,
   addIngredient: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
+  sortBurger: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   selectedBurger: PropTypes.number.isRequired,
   changeSelectedBurger: PropTypes.func.isRequired,

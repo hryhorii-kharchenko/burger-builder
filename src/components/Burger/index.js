@@ -6,7 +6,7 @@ import React, { useLayoutEffect, useRef } from 'react';
 import BurgerIngredient from '../BurgerIngredient';
 import Spinner from '../Spinner';
 
-function Burger({ ingredientList, isLoading }) {
+function Burger({ ingredientList, isLoading, isDisplayOnly }) {
   const burgerRef = useRef(null);
   const burgerWrapperRef = useRef(null);
 
@@ -28,9 +28,13 @@ function Burger({ ingredientList, isLoading }) {
     })`;
   }, [ingredientList, isLoading, burgerRef, burgerWrapperRef]);
 
+  const burgerWrapperStyleName = `burger-wrapper ${
+    isDisplayOnly ? 'display-only' : ''
+  }`;
+
   if (isLoading) {
     return (
-      <div styleName="burger-wrapper" ref={burgerWrapperRef}>
+      <div styleName={burgerWrapperStyleName} ref={burgerWrapperRef}>
         <article styleName="burger" ref={burgerRef}>
           <Spinner />
         </article>
@@ -48,7 +52,7 @@ function Burger({ ingredientList, isLoading }) {
     );
 
   return (
-    <div styleName="burger-wrapper" ref={burgerWrapperRef}>
+    <div styleName={burgerWrapperStyleName} ref={burgerWrapperRef}>
       <article styleName="burger" ref={burgerRef}>
         {ingredients}
       </article>
@@ -56,13 +60,18 @@ function Burger({ ingredientList, isLoading }) {
   );
 }
 
-Burger.defaultProps = { ingredientList: [], isLoading: false };
+Burger.defaultProps = {
+  ingredientList: [],
+  isLoading: false,
+  isDisplayOnly: false,
+};
 
 Burger.propTypes = {
   ingredientList: PropTypes.arrayOf(
     PropTypes.shape({ id: PropTypes.string, type: PropTypes.string })
   ).isRequired,
   isLoading: PropTypes.bool,
+  isDisplayOnly: PropTypes.bool,
 };
 
 export default Burger;

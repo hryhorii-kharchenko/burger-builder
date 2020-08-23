@@ -1,31 +1,41 @@
 .button {
-  background-color: transparent;
+  min-width: 120px;
+  margin: 15px;
+  padding: 15px 30px;
   border: none;
-  outline: none;
+  border-radius: 10px;
+  color: white;
   cursor: pointer;
-  font: inherit;
-  padding: 10px;
-  margin: 10px;
+  font-family: inherit;
+  font-size: 14px;
   font-weight: bold;
+  text-decoration: none;
+  box-shadow: none;
+  text-transform: uppercase;
 }
 
-.button:first-of-type {
+.button:first-child {
   margin-left: 0;
-  padding-left: 0;
+}
+
+.button:last-child {
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-right: 0;
 }
 
 .color-default {
-  color: black;
+  background-color: #bc581e;
 }
 
 .color-success {
-  color: #5C9210;
+  background-color: #5C9210;
 }
 
 .color-danger {
-  color: #944317;
+  background-color: #92101b;
 }
 
 .color-white {
-  color: white;
+  background-color: white;
 }

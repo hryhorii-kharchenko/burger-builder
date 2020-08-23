@@ -3,6 +3,8 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Button from '../Button';
+
 function Input({
   id,
   name,
@@ -16,7 +18,8 @@ function Input({
   errorMessage,
 }) {
   if (type === 'submit') {
-    return <input type={type} styleName="input-submit" value={value} />;
+    // return <input type={type} styleName="input-submit" value={value} />;
+    return <Button type={type}>{value}</Button>;
   }
 
   return (

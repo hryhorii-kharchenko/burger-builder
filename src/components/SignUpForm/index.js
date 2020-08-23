@@ -171,7 +171,7 @@ class SignUpForm extends React.Component {
               }
               styleName="link"
             >
-              Already have an account? Log in
+              Already have an account?
             </Link>
           </footer>
         </Form>

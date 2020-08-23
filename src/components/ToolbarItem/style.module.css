@@ -12,6 +12,10 @@
 }
 
 .link {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  font-size: 16px;
   color: black;
   text-decoration: none;
   transition: color 0.1s ease-out, border-bottom 0.1s ease-out;

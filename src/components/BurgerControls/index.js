@@ -3,7 +3,7 @@ import './style.module.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import CheckoutButton from '../CheckoutButton';
+import Button from '../Button';
 import IngredientComposer from '../IngredientComposer';
 import IngredientMenu from '../IngredientMenu';
 
@@ -18,6 +18,7 @@ function BurgerControls({
   addIngredient,
   addIngredientSelectedBurger,
   removeIngredient,
+  sortBurger,
   activateCheckoutModal,
   isLoading,
   selectedBurger,
@@ -43,6 +44,7 @@ function BurgerControls({
         removeBurger={removeBurger}
         addIngredient={addIngredient}
         removeIngredient={removeIngredient}
+        sortBurger={sortBurger}
         isLoading={isLoading}
         selectedBurger={selectedBurger}
         changeSelectedBurger={changeSelectedBurger}
@@ -51,10 +53,12 @@ function BurgerControls({
         <p styleName="checkout-p">
           Total price: <strong>{totalPrice}$</strong>
         </p>
-        <CheckoutButton
+        <Button
           onClick={activateCheckoutModal}
           isDisabled={ingredientCount === 0}
-        />
+        >
+          Checkout now
+        </Button>
       </section>
     </section>
   );
@@ -86,6 +90,7 @@ BurgerControls.propTypes = {
   addIngredient: PropTypes.func.isRequired,
   addIngredientSelectedBurger: PropTypes.func.isRequired,
   removeIngredient: PropTypes.func.isRequired,
+  sortBurger: PropTypes.func.isRequired,
   activateCheckoutModal: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   selectedBurger: PropTypes.number.isRequired,

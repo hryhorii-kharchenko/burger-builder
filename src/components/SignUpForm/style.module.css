@@ -8,13 +8,14 @@
 }
 
 .footer {
-  margin-top: 30px;
+  margin-top: 15px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .link {
   color: #bc581e;
-  border-bottom: 1px solid #bc581e;
-  text-decoration: none;
+  /* border-bottom: 1px solid #bc581e; */
+  text-decoration: underline;
 }

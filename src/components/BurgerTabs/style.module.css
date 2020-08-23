@@ -1,7 +1,7 @@
 .burger-tabs {
   position: absolute;
   top: 30px;
-  left: 100px;
+  left: 50px;
 }
 
 .tab-list {
@@ -25,12 +25,18 @@
 }
 
 .add-btn {
+  height: 56px;
   padding: 15px;
   border: 0;
   color: black;
   font-size: 18px;
   background: linear-gradient(135deg, #ddd 0% 80%, #fff 0% 100%);
   cursor: pointer;
+  box-sizing: border-box;
+}
+
+.add-btn_disabled {
+  display: none;
 }
 
 .delete-btn {

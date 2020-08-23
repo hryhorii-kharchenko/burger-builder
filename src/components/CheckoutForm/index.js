@@ -7,9 +7,9 @@ import { withRouter } from 'react-router-dom';
 
 import axios from '../../axios-orders';
 import { getToken, getUserId } from '../../reducers/auth';
-import DropDown from '../DropDown';
 import Form from '../Form';
 import Input from '../Input';
+import RadioToolbar from '../RadioToolbar';
 
 class CheckoutForm extends React.Component {
   state = {
@@ -23,10 +23,19 @@ class CheckoutForm extends React.Component {
     zipCodeErrorMsg: '',
     globalErrorMsg: '',
 
-    city: 'Donetsk',
-    deliveryMethod: 'Fastest',
-    cityList: ['Donetsk', 'Kiev', ' Moscow'],
-    deliveryMethodList: ['Fastest', 'Cheapest', 'USP', 'Nova poshta'],
+    city: 'donetsk',
+    deliveryMethod: 'fastest',
+    cityList: [
+      { id: 'donetsk', title: 'Donetsk' },
+      { id: 'kiev', title: 'Kiev' },
+      { id: 'moscow', title: 'Moscow' },
+    ],
+    deliveryMethodList: [
+      { id: 'fastest', title: 'Fastest' },
+      { id: 'cheapest', title: 'Cheapest' },
+      { id: 'usp', title: 'USP' },
+      { id: 'novaPoshta', title: 'Nova poshta' },
+    ],
   };
 
   nameChangeHandler = (event) => {
@@ -281,12 +290,14 @@ class CheckoutForm extends React.Component {
           onBlur={this.zipCodeBlurHandler}
           isRequired
         />
-        <DropDown
+        <RadioToolbar
+          title="Pick your city"
           value={city}
           possibleValues={cityList}
           onChange={this.cityChangeHandler}
         />
-        <DropDown
+        <RadioToolbar
+          title="Delivery method"
           value={deliveryMethod}
           possibleValues={deliveryMethodList}
           onChange={this.deliveryMethodChangeHandler}

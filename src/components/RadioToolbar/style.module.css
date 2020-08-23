@@ -1,0 +1,39 @@
+.radio-toolbar input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.radio-toolbar label {
+  display: inline-block;
+  /* background-color: #ddd; */
+  padding: 10px 20px;
+  font-family: sans-serif, Arial;
+  font-size: 16px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.radio-toolbar input[type="radio"]:checked + label {
+  background-color: rgba(188,88,30, 0.2);
+  border: 1px solid #bc581e;
+}
+
+.radio-toolbar label:hover {
+  background-color: rgba(188,88,30, 0.2);
+}
+
+.choise-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.radio-wrapper {
+  margin-left: 10px;
+}
+
+.radio-wrapper:first-child {
+  margin-left: 0;
+}
