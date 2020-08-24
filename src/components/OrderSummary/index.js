@@ -25,11 +25,11 @@ function OrderSummary({
 
   return (
     <div styleName="order-summary">
-      <header>
+      <header styleName="header">
         <h2>Order summary</h2>
       </header>
-      <main className="body">{summary}</main>
-      <footer className="footer">
+      <main styleName="body">{summary}</main>
+      <footer styleName="footer">
         <Button color="danger" onClick={cancelBtnClick}>
           Cancel
         </Button>
@@ -37,7 +37,7 @@ function OrderSummary({
           Checkout
         </Button>
       </footer>
-      <CloseButton onClick={cancelBtnClick} top="10px" right="10px" />
+      <CloseButton onClick={cancelBtnClick} top="20px" right="20px" />
     </div>
   );
 }

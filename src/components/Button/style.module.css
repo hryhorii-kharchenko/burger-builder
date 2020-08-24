@@ -10,8 +10,10 @@
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
+  text-align: center;
   box-shadow: none;
   text-transform: uppercase;
+  box-sizing: border-box;
 }
 
 .button:first-child {

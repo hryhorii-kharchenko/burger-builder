@@ -72,6 +72,7 @@ class Orders extends React.Component {
           <IngredientSummary
             burgersIngredientTuples={burgersIngredientTuples}
             prices={prices}
+            isFullWidth
           />
         </div>
       );

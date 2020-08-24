@@ -35,20 +35,18 @@ class Checkout extends React.Component {
     return (
       <>
         <ContentWrapper>
-          <section styleName="checkout">
-            <h1>Checkout</h1>
-            <section styleName="wrapper">
-              <CheckoutForm
-                burgerObjArr={burgerObjArr}
-                prices={prices}
-                totalPrice={totalPrice}
-              />
-              <IngredientSummary
-                burgersIngredientTuples={burgersIngredientTuples}
-                prices={prices}
-              />
-            </section>
-          </section>
+          <h1>Checkout</h1>
+          <div styleName="wrapper">
+            <CheckoutForm
+              burgerObjArr={burgerObjArr}
+              prices={prices}
+              totalPrice={totalPrice}
+            />
+            <IngredientSummary
+              burgersIngredientTuples={burgersIngredientTuples}
+              prices={prices}
+            />
+          </div>
         </ContentWrapper>
       </>
     );

@@ -36,6 +36,7 @@ function ToolbarItem({
 }
 
 ToolbarItem.defaultProps = {
+  link: '',
   isWhite: false,
   // isActive: false,
   isVertical: false,
@@ -45,7 +46,7 @@ ToolbarItem.defaultProps = {
 
 ToolbarItem.propTypes = {
   title: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
+  link: PropTypes.string,
   isWhite: PropTypes.bool,
   // isActive: PropTypes.bool,
   isVertical: PropTypes.bool,
